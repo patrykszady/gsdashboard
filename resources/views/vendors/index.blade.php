@@ -1,0 +1,53 @@
+@extends('main')
+
+@section('title', 'Vendors')
+
+@section('content')
+
+<div class="row">
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+
+				<form class="form-inline" autocomplete="off">
+				<div class="form-group"> 
+					Vendors <a href="{{ route('vendors.create') }}" class="btn btn-primary">New Vendor</a>
+				</div>
+				<div class="form-group">
+				    <label class="sr-only" for="filterbox">Search</label>
+				    <input type="text" class="form-control" id="filterbox" placeholder="Search">
+				</div>
+				  
+				</form>
+
+				<hr>
+
+				<div>
+					<ul class="nav nav-tabs" role="tablist">
+					    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Sub Contractors</a></li>
+					    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Vendors</a></li>
+					</ul>
+
+					<div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active" id="home">
+					    	@include('vendors._table', ['biz_type'=>'Sub'])
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="profile">
+					    	@include('vendors._table', ['biz_type'=>'Retail'])
+					    </div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	{{-- <div class="col-lg-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">Timesheets <a href="{{ url('hours/create') }}" class="btn btn-primary">New Timesheet</a></div>
+			@include('hours._table')
+		</div>
+	</div> --}}
+</div>
+
+
+@endsection
