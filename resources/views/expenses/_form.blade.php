@@ -168,12 +168,13 @@
 	</div>
 </div>
 	
-<div class="form-group">
+<div class="form-group {{ $errors->has('receipt') ? ' has-error' : ''}}">
 	<label for="receipt" class="col-sm-4 control-label"></label>
 	<div class="col-sm-6">
 		<div class="input-group">
 			<div class="input-group-addon">Upload New</div>
 			<input type="file" class="form-control" id="receipt" name="receipt">
+			<input type="hidden" class="form-control" id="receipt" name="receipt" value="1.jpg">
 		</div>
 	</div>
 </div>
@@ -181,7 +182,7 @@
 <div class="form-group {{ $errors->has('receipt') ? ' has-error' : ''}}">
 	<label for="receipt" class="col-sm-4 control-label">Receipt</label>
 	<div class="col-sm-6">
-		<input type="file" class="form-control" id="receipt" name="receipt"></file>
+		<input type="file" class="form-control" id="receipt" name="receipt">
 	</div>
 </div>
 @endif

@@ -259,31 +259,18 @@ class ExpenseController extends Controller
     public function update(StoreExpense $request, Expense $expense)
     {
         $check = Check::where('check', $request->check_id)->first();
-        
         //no check entered/check is empty AND $expense->check_id is set before update
-        if($request->has('check_id') == false and isset($expense->check_id)) { 
+        if(is_null($request->check_id) and isset($expense->check_id)) {
             //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
             if(Expense::where('check_id', $expense->check_id)->count() >= 1) {
                 //destroy check entry
-
                 $check = Check::where('check', $expense->check_id)->first()->delete();
             }
-
             $expense->check_id = null;
         //If Check isset and Check # exists in database
-        } elseif($request->has('check_id') and $check != null) {
-            
+        } elseif(!is_null($request->check_id) and $check != null) {
             $expense->check_id = $check->check;
-     
         } elseif ($request->has('check_id')) {
-            //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
-
-            $expensee = Expense::where('check_id', $expense->check_id)->count();
-            if($expensee >= 1 and isset($expense->check_id)) {
-                //destroy check entry
-                $check = Check::where('check', $expense->check_id)->first()->delete();;
-            }
-
             //Create new check
             $check = new Check;
             $check->check = $request->check_id;
@@ -319,11 +306,6 @@ class ExpenseController extends Controller
 
         $expense->save();
 
-/*        if(ExpenseSplit::where('expense_id', $expense->id)->count() > 0 and 
-            ExpenseSplit::where('expense_id', $expense->id)->sum('amount') != $request->amount) {
-            return redirect(route('expensesplits.edit', $expense->id))->with('error', 'Split amounts must equal Expense Amount.');
-        }*/
-
         Session::flash('success', 'Expense for $' . $expense->amount . ' was edited.');
         if($expense->project_id == 0 AND $expense->distribution_id == NULL){
             return redirect(route('expensesplits.create', $expense->id));
@@ -354,13 +336,14 @@ class ExpenseController extends Controller
         }else {
         
         }   
-
+        //destry receipt assoicated with expense
         if (isset($expense->receipt)) {
             Storage::delete('receipts/' . $expense->receipt);
         }
-
+        //destroy any splits associated with this expense
         ExpenseSplit::where('expense_id', $expense->id)->delete();
 
+        //finally...delete the expense
         Expense::destroy($expense->id);  
 
         return redirect(route('expenses.index'))->with('success', 'Expense was deleted.');

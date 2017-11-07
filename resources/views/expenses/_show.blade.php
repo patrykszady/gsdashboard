@@ -44,7 +44,7 @@
 			<div class="panel-footer">
 				<a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-primary">Edit</a>
 				<a href="{{ route('expensesplits.create', $expense->id) }}" class="btn btn-warning">Split</a>
-				<a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-danger">Delete</a>
+		{{-- 		<a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-danger">Delete</a> --}}
 			</div>
 			@endif
 		</div>

@@ -39,8 +39,8 @@ class ExpenseSplitController extends Controller
      */
     public function create(Expense $expense)
     {
-        //if $expense->receipt doesnt exist, redirect back with error
-        if($expense->receipt == null AND $expense->check_id == null) {
+        //if $expense->receipt doesnt exist, redirect to expesnes.edit with error
+        if($expense->receipt == null) {
             Session::flash('error', 'This expense needs a receipt to be split.');
             return redirect(route('expenses.edit', $expense->id));
         }

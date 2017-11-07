@@ -37,14 +37,16 @@ class StoreExpense extends FormRequest
      */
     public function rules()
     {          
-
-      $expenses = Expense::where('check_id', $this->check_id)->where('check_id', '!=', null)->where('vendor_id', $this->vendor_id)->where('expense_date', Carbon::parse($this->expense_date)->toDateTimeString())->get();
+        //check if antother expense exists with same vendor on same date with same check
+        $expense = Expense::where('check_id', $this->check_id)->where('check_id', '!=', null)->where('vendor_id', $this->vendor_id)->where('expense_date', Carbon::parse($this->expense_date)->toDateTimeString())->first();
 
         //save receipt before validation runs
-        //NEED TO CHECK IF FILE IS .JPG or .PDF FIRST!
         if (Request::hasFile('receipt')) {
+          //check if file is an image first
+          Request::validate([
+            'receipt' => 'mimes:jpeg,png',
+          ]);
 
-          //check if file is JPG
             $receipt = Request::file('receipt'); 
             $filename = date('Y-m-d-H-i-s') .'-' . Auth::id() . '.' . $receipt->getClientOriginalExtension();
             $location = storage_path('files/receipts/' . $filename);
@@ -52,69 +54,34 @@ class StoreExpense extends FormRequest
 
             Session::put('receipt_img', $filename);
         }       
-
-      if (Session::exists('receipt_img')) {  
-        if($expenses->isEmpty()) { 
-          return [
-            'expense_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'project_id' => 'required',
-            'vendor_id' => 'required|numeric',
-            'paid_by' => 'required',
-            'invoice' => 'nullable',
-            'check_id' => "nullable|unique:checks,check",
-            'reimbursment' => 'required',
-            'note' => 'nullable|min:3',
-/*            'receipt' => 'required_without:receipt_img|required_unless:reimbursment,0',
-            'receipt_img' => 'required_unless:reimbursment,0',*/
-            ];
-
-        }else {
-          return [
-            'expense_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'project_id' => 'required',
-            'vendor_id' => 'required|numeric',
-            'paid_by' => 'required',
-            'invoice' => 'nullable',
-            'reimbursment' => 'required',
-            //check id => nullable
-            'note' => 'nullable|min:3',
-/*            'receipt' => 'required_without:receipt_img|required_unless:reimbursment,0',
-            'receipt_img' => 'required_unless:reimbursment,0',*/
-
+        return [
+          'expense_date' => 'required|date',
+          'amount' => 'required|numeric',
+          'project_id' => 'required',
+          'vendor_id' => 'required|numeric',
+          'paid_by' => 'required',
+          'invoice' => 'nullable',
+          'check_id' => Rule::unique('checks', 'check')->ignore(isset($expense) ? $expense->check_id : '', 'check'),
+          'reimbursment' => 'required',
+          'note' => 'nullable|min:3',
+          'receipt' => 'required_if:reimbursment,Client',
           ];
-        }   
-    }
-    if($expenses->isEmpty()) { 
-          return [
-            'expense_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'project_id' => 'required',
-            'vendor_id' => 'required|numeric',
-            'paid_by' => 'required',
-            'invoice' => 'nullable', /*unique:users,email,' . $this->check_id,*/
-            'check_id' => "nullable|unique:checks,check",
-            'reimbursment' => 'required',
-            'note' => 'nullable|min:3',
-/*            'receipt' => 'required_unless:reimbursment,0',*/
-            ];
-
-        }else {
-          return [
-            'expense_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'project_id' => 'required',
-            'vendor_id' => 'required|numeric',
-            'paid_by' => 'required',
-            'invoice' => 'nullable',
-            'reimbursment' => 'required',
-            //check id => nullable
-            'note' => 'nullable|min:3',
-           /* 'receipt' => 'required_unless:reimbursment,0',*/
-          ];
-        } 
       }
+
+    public function messages()
+    {
+        return [
+            'receipt.required_if' => 'Receipt required if Client is to reimburse.',
+            'receipt.mimes' => 'Receipt file must be an image.',
+            'vendor_id.required' => 'Vendor is required.',
+            'check_id.unique' => 'Check is already entered.',
+            'project_id.required' => 'Project is required.',
+            'amount.required' => 'Amount is required.',
+            'amount.numeric' => 'Amount must be a number.',
+            'expense_date.required' => 'Date is required.',
+            'expense_date.numeric' => 'Date must be formatted correctly.',
+        ];
+    }
 }
 
         
