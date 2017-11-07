@@ -30,7 +30,7 @@
 	<ul class="list-group">
 		<li class="list-group-item">
 		<input class="box" type="checkbox" checked value="{{$expense->id}}" name="expense[]" rel="{{$expense->amount}}">&nbsp;&nbsp;&nbsp;&nbsp;
-		<strong>{{  $expense->getAmount()}} </strong> 
+		<strong>{{  money($expense->amount)}} </strong> 
 		{{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
 		@if (isset($expense->project_id))
 			<a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>

@@ -30,7 +30,7 @@
 				{{ $expense->getDate() }}
 			</td>
 			<td>
-				{{ $expense->getAmount() }}
+				{{ money($expense->amount) }}
 			</td>
 			<td> 
 				<select class="form-control {{ $errors->has("project_id.$key") ? ' has-error' : '' }}" id="project_id.$key" name="project_id[]">
