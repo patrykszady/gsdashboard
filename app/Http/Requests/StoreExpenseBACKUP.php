@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 use App\Expense;
@@ -46,8 +45,8 @@ class StoreExpense extends FormRequest
 
           //check if file is JPG
             $receipt = Request::file('receipt'); 
-            $filename = date('Y-m-d-H-i-s') .'-' . Auth::id() . '.' . $receipt->getClientOriginalExtension();
-            $location = storage_path('files/receipts/' . $filename);
+            $filename = date('Y-m-d-H-i-s') .'.' . $receipt->getClientOriginalExtension(); //add expense_id somewhere here
+            $location = storage_path('files/temp_receipts/' . $filename);
             Image::make($receipt)->save($location);
 
             Session::put('receipt_img', $filename);

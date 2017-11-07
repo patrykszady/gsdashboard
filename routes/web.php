@@ -46,6 +46,7 @@ Route::get('expenses/input', 'ExpenseController@input');
 Route::post('expenses/input', ['uses' => 'ExpenseController@inputStore', 'as' => 'expenses.inputStore']);
 Route::resource('expenses', 'ExpenseController');
 Route::get('expenses/receipts/{receipt}', ['uses' => 'ExpenseController@receipt', 'as' => 'expenses.receipt']);
+Route::get('expenses/temp_receipts/{receipt}', ['uses' => 'ExpenseController@temp_receipt', 'as' => 'expenses.temp_receipt']);
 Route::get('expenses/original_receipts/{receipt}', ['uses' => 'ExpenseController@original_receipt', 'as' => 'expenses.original_receipt']);
 
 Route::get('expenses/reimbursments/print/{project}', ['uses' => 'ExpenseController@printReimbursment', 'as' => 'expenses.printReimbursment']);

@@ -92,17 +92,17 @@ class Expense extends Model
             return Carbon::parse($date)->format('m/d/y');
         }*/  
     }
-
+/*
     public function getAmount()
     {      
         return $this->getAmountFormatted($this->amount); 
-    }
+    }*/
 
-    public function getAmountFormatted($amount)
+/*    public function getAmountFormatted($amount)
     {      
         $total = (floor($amount) == $amount) ? number_format($amount,0, '.', ',') : number_format($amount,2, '.', ',');
         return '$' .  $total; 
-    }
+    }*/
 
     public function getPaidBy()
     {

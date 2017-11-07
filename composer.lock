@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "519511b22621bc516c4da1b0a5f6bd12",
+    "content-hash": "e3e0d76bf386a80692a4f6650d509a00",
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -434,6 +434,50 @@
                 "parser"
             ],
             "time": "2017-05-14T14:47:48+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/6f389f0f25b90d0b495308efcfa073981177f0fd",
+                "reference": "6f389f0f25b90d0b495308efcfa073981177f0fd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2013-11-30T08:25:19+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -1839,6 +1883,47 @@
                 "uuid"
             ],
             "time": "2017-09-22T20:46:04+00:00"
+        },
+        {
+            "name": "regulus/tetra-text",
+            "version": "v0.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Regulus343/TetraText.git",
+                "reference": "77879de362e2f6c58091287bdbdacc3161a93154"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Regulus343/TetraText/zipball/77879de362e2f6c58091287bdbdacc3161a93154",
+                "reference": "77879de362e2f6c58091287bdbdacc3161a93154",
+                "shasum": ""
+            },
+            "require": {
+                "ezyang/htmlpurifier": "4.6.*",
+                "laravel/framework": "5.*",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Regulus\\TetraText\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cody Jassman",
+                    "email": "me@codyjassman.com"
+                }
+            ],
+            "description": "A small text/string formatting composer package for Laravel 5 that formats numeric values, money values, phone numbers, and more.",
+            "time": "2016-01-17T17:19:37+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

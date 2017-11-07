@@ -78,19 +78,19 @@ $(document).ready(function() {
 			
 			<div class="col-md-6">
 				<ul class="list-group">
-					<li class="list-group-item">${{ $expenses->sum('amount') }} | Expenses</li>
-					<li class="list-group-item">${{ $project->hours->sum('amount') }} | {{ $project->hours->sum('hours') }} Hours | Timesheets </li>
-					<li class="list-group-item">{{$project->getAmountFormatted($project->getTotalCost())}} | Total Cost</li>
+					<li class="list-group-item">{{ money($expenses->sum('amount')) }} | Expenses</li>
+					<li class="list-group-item">{{ money($project->hours->sum('amount')) }} | {{ $project->hours->sum('hours') }} Hours | Timesheets </li>
+					<li class="list-group-item">{{ money($project->getTotalCost())}} | Total Cost</li>
 					<hr>
-					<li class="list-group-item">{{ $project->getProfit() }} | Profit</li>
+					<li class="list-group-item">{{ money($project->getProfit()) }} | Profit</li>
 				</ul>
 			</div>
 			<div class="col-md-6">
 				<ul class="list-group">
-					<li class="list-group-item">${{ $project->project_total }} | Project Estimate</li>
-					<li class="list-group-item">${{ $project->change_order }} | Change Order</li>
-					<li class="list-group-item">${{ $project->getReimbursment() }} | Reimbursment</li>
-					<li class="list-group-item">{{ $project->getProjectTotalFormat() }} | Project Total</li>
+					<li class="list-group-item">{{ money($project->project_total) }} | Project Estimate</li>
+					<li class="list-group-item">{{ money($project->change_order) }} | Change Order</li>
+					<li class="list-group-item">{{ money($project->getReimbursment()) }} | Reimbursment</li>
+					<li class="list-group-item">{{ money($project->getProjectTotalFormat()) }} | Project Total</li>
 				</ul>
 			</div>
 			</div>
@@ -134,7 +134,7 @@ $(document).ready(function() {
 				<td>
    					{{  $expense->vendor->business_name }}
 				</td>
-				<td>{{ $expense->getAmount() }}</td>
+				<td>{{ money($expense->amount) }}</td>
 				<td>
 					@include('expenses._receipt_modal')
 				</td>

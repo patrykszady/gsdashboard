@@ -155,27 +155,18 @@ class Project extends Model
     public function getTotalCost()
     {
         $total = $this->hours->sum('amount') + $this->expenses->sum('amount') + $this->expenseSplits->sum('amount');
-        
-        return $total;  
-    }
-
-    public function getAmountFormatted($amount)
-    {      
-        $total = (floor($amount) == $amount) ? number_format($amount,0, '.', ',') : number_format($amount,2, '.', ',');
-        return '$' .  $total; 
+        return $total;
     }
 
     public function getProfit()
     {
         $total = $this->getProjectTotal() - $this->getTotalCost();
-
-        return $this->getAmountFormatted($total);  
+        return $total;  
     }
 
     public function getProjectTotal()
     {
         $total = $this->getReimbursment() + $this->project_total + $this->change_order;
-
         return  $total;  
     }
 
@@ -184,25 +175,19 @@ class Project extends Model
         $total = 
             $this->expenses->where('reimbursment', 'Client')->sum('amount') + 
             $this->expenseSplits->where('reimbursment', 'Client')->sum('amount');
-
         return  $total;  
     }
 
     public function getProjectTotalFormat()
     {
         $total = $this->getProjectTotal();
-        
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
-
-        return  '$' . $total;  
+        return  $total;  
     }
-
 
     public function getDistBalance($dist)
     {
         $total = $this->getProfit() * ($dist->pivot->percent * .01);
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
-        return '$' . $total;
+        return $total;
     }
 
 }

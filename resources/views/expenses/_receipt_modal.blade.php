@@ -8,7 +8,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">{{ $expense->getAmount() . ' for ' . $expense->vendor->business_name}}</h4>
+        <h4 class="modal-title">{{ money($expense->amount) . ' for ' . $expense->vendor->business_name}}</h4>
       </div>
       <div class="modal-body">
         @include('expenses._receipt')

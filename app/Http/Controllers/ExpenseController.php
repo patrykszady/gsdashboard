@@ -43,6 +43,16 @@ class ExpenseController extends Controller
         return $response;
     }
 
+    public function temp_receipt($receipt)
+    {
+        $response = Image::make(storage_path('files/temp_receipts/' . $receipt));
+        $response = $response->resize(1000, null, function ($constraint) {
+        $constraint->aspectRatio();
+        })->response();
+
+        return $response;
+    }
+
     //Show full-size receipt to anyone with a link
     public function original_receipt($receipt)
     {
@@ -150,8 +160,7 @@ class ExpenseController extends Controller
 
     public function store(StoreExpense $request)
     {
-
-        //Check if Expense is existing
+/*        //Check if Expense is existing
         if($request->has('duplicate')){
 
         } else {
@@ -162,16 +171,20 @@ class ExpenseController extends Controller
                 return redirect()->back()->with('existing_expense', $existing_expense)->withInput();
             }
         }
-
+*/
         $expense = Expense::create($request->except(['receipt', 'receipt_img', 'check_id', 'duplicate', 'project_id']));
 
-        $check = Check::where('check', $request->check_id)->first();
         //If Check isset and Check # exists in database
-        if($request->has('check_id') == false) {
-            //no check entered..do nothing
-        } elseif($request->has('check_id') and $check != null) {//check exists and $check exists
+        $check = Check::where('check', $request->check_id)->first();
+
+        //no check entered..do nothing
+        if(is_null($request->check_id)) {
+        
+        //check exists and $check exists
+        } elseif(!is_null($request->check_id) and $check != null) {
             $check = Check::findOrFail($check->id);
             $expense->check_id = $request->check_id;
+
         //Create new check
         } else {
             $check = new Check;

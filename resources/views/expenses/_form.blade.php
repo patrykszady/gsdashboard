@@ -1,8 +1,8 @@
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js">
+{{-- <script type="text/javascript" src="http://code.jquery.com/jquery.min.js">
     $(window).load(function(){
         $('#myModal').modal('show');
     });
-</script>
+</script> --}}
 
 <div class="form-group {{$errors->has('expense_date') ? ' has-error' : ''}}">
 	<label for="expense_date" class="col-sm-4 control-label">Date</label>
@@ -146,9 +146,24 @@
 	<label for="receipt_img" class="col-sm-4 control-label">Receipt</label>
 	<div class="col-sm-6">
 		<div class="input-group">
-		    <div class="input-group-addon"><a href="" class="btn-link" data-toggle="modal" data-target=".bs-example-modal-lg-{{$expense->id}}">Uploaded</a></div>
+		    <div class="input-group-addon"><a href="" class="btn-link" data-toggle="modal" data-target=".bs-example-modal-lg-123">Uploaded</a></div>
 			<input type="text" class="form-control" id="receipt_img" name="receipt_img" disabled value="Upload New Below">
-			@include('expenses._receipt_modal', ['form_view' => 1])
+			{{-- @include('expenses._receipt_modal', ['form_view' => 1]) --}}
+			<div class="modal fade bs-example-modal-lg-123" id="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{{--  <h4 class="modal-title">{{ money($expense->amount) . ' for ' . $expense->vendor->business_name}}</h4> --}}
+			
+		</div>
+		<div class="modal-body">
+			<a href="{{ route('expenses.receipt', Session::get('receipt_img')) }}" target="_blank"><img src="{{route('expenses.receipt', Session::get('receipt_img'))}}" class="img-responsive" alt="Expense Receipt"></a>
+		{{-- @include('expenses._receipt') --}}
+		</div>
+	</div>
+</div>
+</div>
 		</div>
 	</div>
 </div>
@@ -156,31 +171,11 @@
 <div class="form-group">
 	<label for="receipt" class="col-sm-4 control-label"></label>
 	<div class="col-sm-6">
-		
 		<div class="input-group">
-      <div class="input-group-addon">Upload New</div>
-      <input type="file" class="form-control" id="receipt" name="receipt">
-  
-    </div>
-
-{{-- <div class="form-group has-success">
-	<label for="receipt_img" class="col-sm-4 control-label">Receipt</label>
-	<div class="col-sm-6">
-		
-		<div class="input-group">
-      <div class="input-group-addon">Uploaded</div>
-      <div class="input-group-addon">New</div>
-      <input type="file" class="form-control" id="receipt" name="receipt">
-  
-    </div>
-	 --}}
-{{-- 	<span class="input-group-btn">
-		<a href="{{ route('expenses.create') }}" class="btn btn-primary">New</a>
-	</span> --}}
-	
+			<div class="input-group-addon">Upload New</div>
+			<input type="file" class="form-control" id="receipt" name="receipt">
+		</div>
 	</div>
-
-
 </div>
 @else
 <div class="form-group {{ $errors->has('receipt') ? ' has-error' : ''}}">
@@ -205,7 +200,7 @@
 
 @endif
 
-@if(Session('existing_expense'))
+{{-- @if(Session('existing_expense'))
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
@@ -231,4 +226,4 @@
 </div>
 
 @endif
-
+ --}}

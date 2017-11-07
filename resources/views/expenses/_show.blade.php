@@ -19,7 +19,7 @@
 					</tr>
 					<tr>
 						<td><strong>Amount</strong></td>
-						<td>{{ $expense->getAmount() }}</td>
+						<td>{{ money($expense->amount) }}</td>
 					</tr>
 					<tr>
 						<td><strong>Vendor</strong></td>

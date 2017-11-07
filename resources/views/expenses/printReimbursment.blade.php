@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="row">
       <div class="col-xs-12">
-      <h1>{{ $expense->getAmount() . ' for ' . $expense->vendor->business_name }}</h1>
+      <h1>{{ money($expense->amount) . ' for ' . $expense->vendor->business_name }}</h1>
       <pre style="background-color:transparent">
         {!! $expense->receipt_html !!}
      </pre>

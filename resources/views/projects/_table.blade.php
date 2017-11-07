@@ -13,7 +13,7 @@
 			<tr>
 				<td><a href="{{ route('projects.show', $project->id)}}">{{ $project->getProjectname() }}</a></td>
 				<td><a href="{{ route('clients.show', $project->client->id)}}">{{ $project->client->getName() }}</a></td>
-				<td>{{$project->getTotalCost()}} </td>
+				<td>{{ money($project->getTotalCost()) }} </td>
 
 				<td>
 					<a href="{{ route('projects.show', $project->id) }}" class="btn btn-default">View</a>

@@ -31,7 +31,7 @@
 	@foreach ($expenses as $expense)
 		<tr>
 			<td data-order="{{$expense->expense_date}}">{{ $expense->getDate() }}</td>
-			<td data-search="{{$expense->amount}}">{{ $expense->getAmount() }}</td>
+			<td data-search="{{$expense->amount}}">{{ money($expense->amount) }}</td>
 			@if(isset($project))
 			@else
 				@if($expense->project_id == 0 AND $expense->distribution_id == NULL)

@@ -90,8 +90,6 @@ class Vendor extends Model
     {
         $total = Expense::where('vendor_id', $this->id)->sum('amount');
 
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
-
-        return '$' .  $total;
+        return $total;
     }
 }
