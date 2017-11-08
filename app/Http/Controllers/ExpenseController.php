@@ -43,16 +43,6 @@ class ExpenseController extends Controller
         return $response;
     }
 
-    public function temp_receipt($receipt)
-    {
-        $response = Image::make(storage_path('files/temp_receipts/' . $receipt));
-        $response = $response->resize(1000, null, function ($constraint) {
-        $constraint->aspectRatio();
-        })->response();
-
-        return $response;
-    }
-
     //Show full-size receipt to anyone with a link
     public function original_receipt($receipt)
     {

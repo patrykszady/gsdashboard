@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //TIMESHEETS
-        $schedule->call('\App\Http\Controllers\HourController@printTimesheets')->weekly()->mondays()->timezone('America/Chicago')->at('22:00');
+        $schedule->call('\App\Http\Controllers\HourController@printTimesheets')->weekly()->sundays()->timezone('America/Chicago')->at('16:00');
         //AUTOMATIC RECEIPTS
         $schedule->call('\App\Http\Controllers\ReceiptController@index')->everyMinute();
     }
