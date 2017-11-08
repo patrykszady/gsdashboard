@@ -1,4 +1,4 @@
-<div class="col-md-8">
+<div class="col-md-8" style="position: sticky; top: 10px; position: -webkit-sticky;">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 	    	<h3 class="panel-title">@yield('title')</h3>
@@ -36,8 +36,7 @@
 		</div>
 	</div>
 </div>
-<div class="col-md-4" style="position: sticky; top: 10px;">
-
+<div class="col-md-4">
 @foreach($expense_splits as $expense_split)
 	<div class="panel panel-default">
 		<div class="panel-heading">

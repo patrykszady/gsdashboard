@@ -81,3 +81,4 @@ $('#sections').on('click', '.remove', function() {
     });
     return false;
 });
+

@@ -260,7 +260,7 @@ class ExpenseController extends Controller
         //If Check isset and Check # exists in database
         } elseif(!is_null($request->check_id) and $check != null) {
             $expense->check_id = $check->check;
-        } elseif ($request->has('check_id')) {
+        } elseif (!is_null($request->check_id)) {
             //Create new check
             $check = new Check;
             $check->check = $request->check_id;

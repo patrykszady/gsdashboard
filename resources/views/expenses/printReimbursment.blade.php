@@ -42,7 +42,7 @@
         </div> <!-- /container -->
 
 @else
-    @if(Image::make(storage_path('files/receipts/' . $expense->receipt))->height() > Image::make(storage_path('files/receipts/' . $expense->receipt))->width()  ) {{-- landscape to dhis if protrait do this. --}}
+    @if(Image::make(storage_path('files/receipts/' . $expense->receipt))->height() > Image::make(storage_path('files/receipts/' . $expense->receipt))->width()  ) {{-- landscape this if protrait do this. --}}
     @else
     <style type="text/css" media="print">
         .landscape
@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="row">
     	<div class="col-xs-12">
-    	<h1>{{ $expense->getAmount() . ' for ' . $expense->vendor->business_name }}</h1>
+    	<h1>{{ money($expense->amount) . ' for ' . $expense->vendor->business_name }}</h1>
     <img height="900" widht="auto" max-width="500" alt="Expense Receipt" src="{{storage_path() . '/files/receipts/' . $expense->receipt}}" />
     {{-- <img src="{{route('expenses.receipt', $expense->receipt)}}"> --}}
 

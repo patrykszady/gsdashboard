@@ -1,9 +1,3 @@
-{{-- <script type="text/javascript" src="http://code.jquery.com/jquery.min.js">
-    $(window).load(function(){
-        $('#myModal').modal('show');
-    });
-</script> --}}
-
 <div class="form-group {{$errors->has('expense_date') ? ' has-error' : ''}}">
 	<label for="expense_date" class="col-sm-4 control-label">Date</label>
 	<div class="col-sm-6">
