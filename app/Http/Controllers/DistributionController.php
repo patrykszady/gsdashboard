@@ -72,6 +72,9 @@ class DistributionController extends Controller
         $accounts = Project::find($project->id)->distributions()->get();
 
         return view('distributions.projectedit', compact('project', 'accounts'));
+
+
+        
     }   
     public function projectUpdate(StoreDistributionProject $request, Project $project)
     {
