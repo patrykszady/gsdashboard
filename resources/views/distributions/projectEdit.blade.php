@@ -3,7 +3,7 @@
 @section('title', 'Update Project Distribution')
 
 @section('content')
-{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
  
 <script type="text/javascript">
 $(document).ready(function() {
@@ -17,7 +17,7 @@ $("#account{{$key}}").keyup(function() {
 
 @endforeach
 });
-</script> --}}
+</script>
 
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
