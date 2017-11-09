@@ -24,16 +24,18 @@ class DistributionController extends Controller
     }
     public function projectCreate(Project $project)
     {
-
         if(URL::previous() == URL::current()) {
-
         } else {
             Session::put('takemeback', URL::previous());
         }
-
-        //if project is not ocmplete, redirect with message
+        //if expense already has splits send to Edit view
+        if($project->distributions()->count() > 0){
+             return redirect(route('distributions.projectEdit', $project->id));
+        }
+        //if project is not complete, redirect with message
         if($project->isComplete() == null) {
             return redirect(Session::pull('takemeback'));
+     /*       ->with('success', 'Project is not yet complete and cannot be distributed.')*/
         }
 
         $accounts = Distribution::where('vendor_id', Auth::user()->primary_vendor)->get();
@@ -42,8 +44,6 @@ class DistributionController extends Controller
 
     public function projectStore(StoreDistributionProject $request)
     {
-        //check is account[] array equals to 100
-
         $count = count($request->account);
 
         for($i = 0; $i < $count; ++$i){
@@ -59,7 +59,6 @@ class DistributionController extends Controller
     }
     public function projectEdit(Project $project)
     {
-
         if(URL::previous() == URL::current()) {
 
         } else {
@@ -70,13 +69,24 @@ class DistributionController extends Controller
         if($project->isComplete() == null) {
             return redirect(Session::pull('takemeback'));
         }
+        $accounts = Project::find($project->id)->distributions()->get();
 
-        $accounts = Distribution::where('vendor_id', Auth::user()->primary_vendor)->get();
-        return view('distributions.projectEdit', compact('project', 'accounts'));
+        return view('distributions.projectedit', compact('project', 'accounts'));
     }   
-    public function projectUpdate(Request $request, Distribution $distribution)
+    public function projectUpdate(StoreDistributionProject $request, Project $project)
     {
-        dd('here in projectUpdate');
+        $count = count($request->account);
+
+        for($i = 0; $i < $count; ++$i){
+            $distribution = Distribution::findOrFail($request->distribution_id[$i]);
+
+            $distribution->projects()->updateExistingPivot($request->project_id, [
+                'percent' => $request->account[$i],
+                'created_by_user_id' => Auth::id(),
+                ]);
+        }
+
+        return redirect(Session::pull('takemeback'));
     }      
 
     public function index()

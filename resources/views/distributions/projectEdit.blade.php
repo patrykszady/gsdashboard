@@ -3,6 +3,23 @@
 @section('title', 'Update Project Distribution')
 
 @section('content')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js "></script>
+ 
+<script type="text/javascript">
+$(document).ready(function() {
+
+@foreach ($accounts as $key => $account)
+var $output{{$key}} = $("#output-value{{$key}}");
+$("#account{{$key}}").keyup(function() {
+    var value = parseFloat($(this).val());
+    $output{{$key}}.val(({{$project->getProfit()}}*(value*.01)).toFixed(2));
+});
+
+@endforeach    
+
+});
+</script>
+
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-default">

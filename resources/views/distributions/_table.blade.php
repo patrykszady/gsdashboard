@@ -2,25 +2,21 @@
 <thead>
 	<th>Name</th>
 	<th>Balance</th>	
+	<th>Paid</th>	
 	<th>Actions</th>
 </thead>
-
-<tbody>
-		
-@foreach ($distributions as $distribution)
-
-<tr>
-	
-	<td>{{ $distribution->name }}</td>
-	<td>{{ $distribution->getBalance()}}</td>
-	<td>
-		<a href="{{ route('distributions.show', $distribution->id) }}" class="btn btn-default btn-xs">View</a>
-		<a href="{{ route('distributions.edit', $distribution->id) }}" class="btn btn-default btn-xs">Edit</a>
-	</td>
-</tr>
-
-@endforeach
-
+<tbody>	
+	@foreach ($distributions as $distribution)
+	<tr>
+		<td>{{ $distribution->name }}</td>
+		<td>{{ money($distribution->getBalance())}}</td>
+		<td>{{ money($distribution->getDistPaid())}}</td>
+		<td>
+			<a href="{{ route('distributions.show', $distribution->id) }}" class="btn btn-default btn-xs">View</a>
+			<a href="{{ route('distributions.edit', $distribution->id) }}" class="btn btn-default btn-xs">Edit</a>
+		</td>
+	</tr>
+	@endforeach
 </tbody>
 </table>
 
@@ -42,7 +38,7 @@
 	</td>
 		@foreach($project->distributions as $distribution)
 
-			<td>{{$project->getDistBalance($distribution)}} | {{$distribution->pivot->percent}} %</td>
+			<td>{{ money($project->getDistBalance($distribution))}} | {{$distribution->pivot->percent}} %</td>
 		@endforeach
 	<td>
 		<a href="{{ route('distributions.show', $distribution->id) }}" class="btn btn-default">View</a>

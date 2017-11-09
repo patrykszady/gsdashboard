@@ -30,11 +30,16 @@ class Distribution extends Model
             $total += Project::findOrFail($project->pivot->project_id)->getProfit() * ($project->pivot->percent * .01);
         }
 
-        $total = $total - Expense::where('distribution_id', $this->id)->sum('amount');
+        $total = $total - $this->getDistPaid();
 
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
+        return $total;
+    }
 
-        return '$' . $total;
+    public function getDistPaid()
+    {
+        $total = Expense::where('distribution_id', $this->id)->sum('amount');
+
+        return $total;
     }
 /*
 

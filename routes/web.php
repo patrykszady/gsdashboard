@@ -68,7 +68,9 @@ Route::post('vendors/payment', ['uses' => 'VendorController@vendorStorePayment',
 Route::resource('distributions', 'DistributionController');
 Route::get('distributions/project/{project}', 'DistributionController@projectCreate');
 Route::post('distributions/project', ['uses' => 'DistributionController@projectStore', 'as' => 'distributions.projectStore']);
-Route::get('distributions/project/{project}/edit', 'DistributionController@projectEdit');
+Route::get('distributions/project/{project}/edit',
+	['uses' => 'DistributionController@projectEdit', 'as' => 'distributions.projectEdit']);
+Route::patch('distributions/project/{project}', ['uses' => 'DistributionController@projectUpdate', 'as' => 'distributions.projectUpdate']);
 
 Route::resource('hours', 'HourController');
 Route::resource('checks', 'CheckController');

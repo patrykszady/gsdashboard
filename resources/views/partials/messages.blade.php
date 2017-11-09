@@ -12,7 +12,6 @@
 
 
 @if (count($errors) > 0)
-	
 	<div class="alert alert-danger" role="alert">
 		<strong>Please Fix:</strong>
 		<ul>
@@ -21,5 +20,4 @@
 		@endforeach
 		</ul>
 	</div>
-
 @endif

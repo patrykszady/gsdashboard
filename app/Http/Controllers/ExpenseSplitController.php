@@ -44,7 +44,7 @@ class ExpenseSplitController extends Controller
             Session::flash('error', 'This expense needs a receipt to be split.');
             return redirect(route('expenses.edit', $expense->id));
         }
-        //if expense already has splits send to Edit view
+        //if expense already has splits send to Expensesplits Edit view
         if($expense->expense_splits()->count() > 0){
              return redirect(route('expensesplits.edit', $expense->id));
         }

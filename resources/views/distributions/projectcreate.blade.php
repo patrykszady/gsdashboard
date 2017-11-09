@@ -17,13 +17,9 @@ $("#account{{$key}}").keyup(function() {
     $output{{$key}}.val(({{$project->getProfit()}}*(value*.01)).toFixed(2));
 });
 
-
 @endforeach    
 
 });
-
-
-
 </script>
 
 

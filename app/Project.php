@@ -76,8 +76,6 @@ class Project extends Model
         return $this->hasOne('App\Projectstatus')->latest(); //->first()->title_id
     }
 
-
-
     public function isComplete(){
         return $this->projectstatuses()->where('title_id', 6)->first();
     }

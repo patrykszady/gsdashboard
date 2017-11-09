@@ -3,7 +3,7 @@
 @section('title', $distribution->name)
 
 @section('content')
-<h1>{{$distribution->name}} Balance {{ $distribution->getBalance()}}</h1>
+<h1>{{$distribution->name}} Balance {{ money($distribution->getBalance())}}</h1>
 {{-- <div class="row">
 	<div class="col-md-6">
 		<div class="panel panel-default">
@@ -90,7 +90,7 @@
 	<td>{{$project->getProjectname()}}</td>
 	
 	@foreach($project->distributions->where('id', $distribution->id) as $distribution)
-	<td>{{$project->getDistBalance($distribution)}} | {{$distribution->pivot->percent}} %</td>
+	<td>{{ money($project->getDistBalance($distribution))}} | {{$distribution->pivot->percent}} %</td>
 	@endforeach
 	
 </tr>
