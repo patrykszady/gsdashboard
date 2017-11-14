@@ -49,7 +49,7 @@
 </div>
 <hr>
 @endif
-
+<div id="row_dim">
 	<div class="form-group {{ $errors->has('first_name') ? ' has-error' : ''}}">
 		<label for="first_name" class="col-sm-4 control-label">First Name</label>
 		<div class="col-sm-6">
@@ -78,3 +78,4 @@
 		</div>
 	</div>
 	<hr>
+</div>

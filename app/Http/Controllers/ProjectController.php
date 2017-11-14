@@ -32,10 +32,15 @@ class ProjectController extends Controller
 
     public function create(Client $client)
     {
+        //if creating new client, take back here afterwards
+        if(URL::previous() == URL::current()) {
+        } else {
+            Session::put('takemeback', URL::current());
+        }
+        
         if(isset($client->id)) {
             $client = Client::findOrFail($client->id);
             return view('projects.create', compact('client'));
-
         } else {
             $clients = Client::all();
             return view('projects.create', compact('clients'));
@@ -49,7 +54,6 @@ class ProjectController extends Controller
         $project->client_id = $request->client_id;
         $project->note = $request->note;
         $project->created_by_user_id = Auth::id();
-        $project->do_not_include = $request->do_not_include;
         $project->project_total = $request->project_total;
 
         if($request->jobsite_address == 1) {
@@ -66,8 +70,6 @@ class ProjectController extends Controller
             $project->city = $request->city;
             $project->zip_code = $request->zip_code;
             $project->state = $request->state;
-        } else {
-
         }
 
         $project->save();

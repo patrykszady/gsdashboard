@@ -57,7 +57,7 @@
     {{ !empty(old('expense')) && (in_array($expense->id, old('expense'))) ? 'checked' : '' }}
     >&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <strong>{{  $expense->getAmount()}} </strong> 
+    <strong>{{ money($expense->amount) }} </strong> 
     
     {{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
     @if (isset($expense->project_id))
@@ -85,7 +85,7 @@
         {{ !empty(old('expense_by_primary_vendor')) && (in_array($expense->id, old('expense_by_primary_vendor'))) ? 'checked' : '' }}
         >&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-md-{{$expense->id}}"><strong>-{{  $expense->getAmount()}} </strong></button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-md-{{$expense->id}}"><strong>-{{ money($expense->amount) }} </strong></button>
 
 
         {{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
@@ -103,9 +103,7 @@
 
     <input type="hidden" id="checkTotal" name="check" value="">
 
-
-    <input type="hidden" id="inputTotal" name="check" value="">
-
+    <input type="hidden" id="inputTotal" name="check1" value="">
 
   <hr>
 {{--   <div style="font-weight: bold">Grand total: <span id="grandTotal"></span></div>
@@ -188,8 +186,6 @@
   </div>
 </div>
 
-
-
 <script type="text/javascript">
 
 $(document).on("keyup", ".vendor_accounts input", function() {
@@ -248,16 +244,11 @@ function updateGrandTotalDisplayed(val){
   $('#totalPrice').val(total.toFixed(2));
 };
 
-
 /*$(document).ready(function() {
     var totalPrice = +val(checkTotal) + val(inputTotal);
     
     $('#totalPrice').val(totalPrice.toFixed(2));
 });
 */
-
-
-
-
 
 </script>

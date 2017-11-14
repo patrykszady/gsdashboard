@@ -24,7 +24,7 @@ class StoreVendorPayment extends FormRequest
      */
     public function rules(Request $request)
     {
-
+   /*     dd($request->all()); array_sum($request->amount)*/
     if($request->paid_by == 0){
                         $count = count($request->amount);
                     for($i = 0; $i < $count; ++$i){

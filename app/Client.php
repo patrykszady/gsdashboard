@@ -24,9 +24,7 @@ class Client extends Model
     public function getName()
     {
     	if ($this->business_name == null) {
-    		
             return $this->getUsernames();
-		    
     	} else {
     		return $this->business_name;
     	}
@@ -103,18 +101,15 @@ class Client extends Model
         $home = preg_replace('/[^0-9]/','',$this->home_phone);
         return $home;
     }
-    //COMBIME both into one function and have a line break.
-    public function getFulladdress1()
+    public function getFulladdress()
     {
-    	if ($this->address_2 === null) {
-    		return $this->address;
-    	} else {
-    		return $this->address . ', ' . $this->address_2;
-    	}
-    	
-    }
-    public function getFulladdress2()
-    {
-    	return $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+        if ($this->address_2 === null) {
+            $address1 = $this->address;
+        } else {
+            $address1 = $this->address . ', ' . $this->address_2;
+        }
+            $address2 = $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+
+            return $address1 . '<br>' .  $address2;
     }
 }

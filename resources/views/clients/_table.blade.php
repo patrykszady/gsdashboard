@@ -14,7 +14,7 @@
 
    					{{ $client->getName() }}
 				</td>
-				<td>{{ $client->getFulladdress1()}} <br> {{ $client->getFulladdress2()  }}</td>
+				<td>{!! $client->getFulladdress() !!}</td>
 				<td>
 					<a href="{{ route('clients.show', $client->id) }}" class="btn btn-default">View</a>
 					<a href="{{ route('clients.edit', $client->id) }}" class="btn btn-default">Edit</a>

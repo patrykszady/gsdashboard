@@ -5,95 +5,71 @@
 	</div>
 </div>
 
-@if(isset($clients))
-
 <div class="form-group {{ $errors->has('client_id') ? ' has-error' : ''}}">
 	<label for="client_id" class="col-sm-4 control-label">Client</label>
 	<div class="col-sm-6">
-		<select class="form-control" id="client_id" name="client_id">
-			@foreach ($clients as $client)
-				<option value="{{$client->id}}" 
-					{{ old('client_id', isset($project) ? $project->client_id : '') == $client->id ? "selected" : "" }}>
-					{{ $client->getName() }}
-				</option>
-			@endforeach
-
-		</select>
+		<div class="input-group">
+			<select class="form-control" id="client_id" name="client_id">
+				@foreach ($clients as $client)
+					<option value="{{$client->id}}" 
+						{{ old('client_id', isset($project) ? $project->client_id : '') == $client->id ? "selected" : "" }}>
+						{{ $client->getName() }}
+					</option>
+				@endforeach
+			</select>
+			<span class="input-group-btn">
+				<a href="{{ route('clients.create') }}" class="btn btn-primary">New</a>
+			</span>
+		</div>
 	</div>
 </div>
+
+
 <hr>
 @if(!isset($project))
 <div class="form-group">
-<label class="col-xs-4 control-label">Jobsite Address</label>
-<div class="col-xs-8">
-<div class="radio">
-<label>
-<input id="inlineradio1" name="jobsite_address" value="1" type="radio" {{ old('jobsite_address') == 1 ? "checked" : "checked" }}>
-@foreach ($clients as $client)
-		<div class="{{$client->id}} box">
-		{{-- This should be in one line! --}}
-		{{ $client->getFulladdress1() }}
-		<br>
-		{{ $client->getFulladdress2()}}
+	<label class="col-xs-4 control-label">Jobsite Address</label>
+	<div class="col-xs-8">
+		<div class="radio">
+			<label>
+				<input id="inlineradio1" name="jobsite_address" value="1" type="radio" {{ old('jobsite_address') == 1 ? "checked" : "checked" }}>
+					@foreach ($clients as $client)
+							<div class="{{$client->id}} box">
+							{{-- This should be in one line! --}}
+							{{ $client->getFulladdress1() }}
+							<br>
+							{{ $client->getFulladdress2()}}
+							</div>
+					@endforeach
+			</label>
 		</div>
-@endforeach
-</label>
+		<div class="radio">
+			<label>
+				<input id="inlineradio2" name="jobsite_address" value="2" type="radio" {{ old('jobsite_address') == 2 ? "checked" : "" }}>
+			New Address
+			</label>
+		</div>
+	</div>
 </div>
-<div class="radio">
-<label>
-<input id="inlineradio2" name="jobsite_address" value="2" type="radio" {{ old('jobsite_address') == 2 ? "checked" : "" }}>
-New Address
-</label>
-</div>
-</div>
-</div>
+@elseif($clients->count() > 1)
 @endif
 
-
-
-@elseif(isset($client))
-	<div class="form-group">
+{{-- 	<div class="form-group">
 		<label for="client_id" class="col-sm-4 control-label">Selected Client</label>
 		<div class="col-sm-6">
 			<input type="hidden" id="client_id" name="client_id" value="{{ $client->id }}">
 
 			<input type="text" class="form-control" id="client_id" name="client_id" disabled value="{{ $client->getName()}}">
 		</div>
-	</div>
-
-
-<div class="form-group">
-<label class="col-xs-4 control-label">Jobsite Address</label>
-<div class="col-xs-8">
-<div class="radio">
-<label>
-<input id="inlineradio1" name="jobsite_address" value="1" type="radio" {{ old('jobsite_address') == 1 ? "checked" : "checked" }}>
-		<div>
-		{{-- This should be in one line! --}}
-		{{ $client->getFulladdress1() }}
-		<br>
-		{{ $client->getFulladdress2()}}
-		</div>
-</label>
-</div>
-<div class="radio">
-<label>
-<input id="inlineradio2" name="jobsite_address" value="2" type="radio" {{ old('jobsite_address') == 2 ? "checked" : "" }}>
-New Address
-</label>
-</div>
-</div>
-</div>
-
-@endif
+	</div> --}}
 
 <div class="form-group {{ $errors->has('address') ? ' has-error' : ''}} {{ $errors->has('address_2') ? ' has-error' : ''}}">
 	<label for="address" class="col-sm-4 control-label">Address</label>
 	<div class="col-sm-4">
-	<input type="text" class="form-control" id="address" name="address" placeholder="400 N Wheeling Rd" value="{{ old('address', isset($project) ? $project->address : '') }}">
+		<input type="text" class="form-control" id="address" name="address" placeholder="400 N Wheeling Rd" value="{{ old('address', isset($project) ? $project->address : '') }}">
 	</div>
 	<div class="col-sm-2">
-	<input type="text" class="form-control" id="address_2" name="address_2" placeholder="Unit 202" value="{{ old('address_2', isset($project) ? $project->address_2 : '') }}">
+		<input type="text" class="form-control" id="address_2" name="address_2" placeholder="Unit 202" value="{{ old('address_2', isset($project) ? $project->address_2 : '') }}">
 	</div>
 </div>
 
@@ -143,21 +119,4 @@ New Address
 	</div>
 </div>
 
-<hr>
-<div class="form-group">
-<label class="col-xs-4 control-label">Include In Projects</label>
-<div class="col-xs-8">
-
-<label class="radio-inline">
-<input id="inlineradio3" name="do_not_include" value="1" type="radio" {{ old('do_not_include') == 1 ? "checked" : "checked" }}>
-Yes
-</label>
-
-<label class="radio-inline">
-<input id="inlineradio4" name="do_not_include" value="2" type="radio" {{ old('do_not_include') == 2 ? "checked" : "" }}>
-No (This Project is An OFFICE Project)
-</label>
-
-</div>
-</div>
 <hr>

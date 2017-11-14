@@ -58,22 +58,25 @@ class ClientController extends Controller
             $user = User::findOrFail($request->user_id); 
         //Update current App/User('user_id') with the new client_id
         } else {
-
             $user = User::create([
             'first_name' => $request['first_name'], 
             'last_name' => $request['last_name'], 
             'email' => $request['email'], 
             'phone_number' => $request['phone_number']
             ]);
-            $user->password = bcrypt('Designspilka123#');
-           
+            $user->password = bcrypt('Designspilka123#');  
         }
         
         $user->created_by_user_id = Auth::id();
         $user->client_id = $client->id;
         $user->save();
 
-        return redirect(route('clients.show', $client->id))->with('success', 'Client was created.');
+        if(Session::has('takemeback')) {
+            return redirect(Session::pull('takemeback'))->with('success', 'Client was created.');
+        } else {
+            return redirect(route('clients.show', $client->id))->with('success', 'Client was created.');
+        }
+        
     }
 
     public function show(Client $client)

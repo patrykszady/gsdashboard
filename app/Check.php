@@ -39,15 +39,15 @@ class Check extends Model
         if($this->hours->count() > 0) {
             $payee = $this->hours->first()->user->id;
             $user = User::findOrFail($payee);
-        
+
         } elseif($this->expenses->count() > 0 and $this->expenses->last()->paid_by == 0) {  //paid by 0
             $payee = $this->expenses->last()->vendor->id;
             $user = Vendor::findOrFail($payee);
+
  
         } elseif ($this->expenses->count() > 0 and $this->expenses->first()->paid_by > 0){
             
             $user = User::findOrFail($this->expenses->first()->paid_by);
-            
         }
 
         return $user;

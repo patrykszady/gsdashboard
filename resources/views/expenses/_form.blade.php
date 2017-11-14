@@ -129,7 +129,7 @@
 <div class="form-group {{ $errors->has('check_id') ? ' has-error' : ''}}">
 	<label for="check_id" class="col-sm-4 control-label">Check #</label>
 	<div class="col-sm-6">
-		<input type="number" class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+		<input type="number" disabled class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
 	</div>
 </div>
 

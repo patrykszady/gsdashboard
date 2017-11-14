@@ -324,7 +324,7 @@ class ExpenseController extends Controller
         if($count <= 1 and $count1 == 0){
             $check = Check::where('check', $expense->check_id)->first()->delete();
         }else {
-        
+            return redirect()->back()->with('error', 'Cant delete expense that had a check paid already');
         }   
         //destry receipt assoicated with expense
         if (isset($expense->receipt)) {

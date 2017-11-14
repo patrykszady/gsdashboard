@@ -9,7 +9,7 @@
 @include('partials._addressform')
 
 <div class="form-group {{ $errors->has('home_phone') ? ' has-error' : ''}}">
-	<label for="home_phone" class="col-sm-4 control-label">Home Phone</label>
+	<label for="home_phone" class="col-sm-4 control-label">Phone</label>
 	<div class="col-sm-6">
 		<input type="text" class="form-control" id="home_phone" name="home_phone" placeholder="2249993880" value="{{ old('home_phone') }}">
 	</div>

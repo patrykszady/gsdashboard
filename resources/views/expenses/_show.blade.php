@@ -26,10 +26,7 @@
 						<td><a href="{{ route('vendors.show', $expense->vendor->id)}}">{{ $expense->vendor->getName() }}</a></td>
 					</tr>
 					<tr>
-						@if($expense->project_id == 0)
-							<td><strong>Split</strong></td>
-							<td><a href="{{ route('expenses.show', $expense->id)}}">Expense Split</a></td>
-						@elseif (isset($expense->project_id))
+						@if(isset($expense->project_id))
 							<td><strong>Project</strong></td>
 							<td><a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a></td>
 						@else

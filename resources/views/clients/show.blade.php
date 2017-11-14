@@ -13,20 +13,18 @@
 				<h3>@yield('title')</h3>
 				<hr>
 
-				@if(isset($client->business_name))
+{{-- 				@if(isset($client->business_name))
 					<p><strong>Contact:</strong>
 					<br>
 					<h4>{{$client->getUsernames()}}</h4>
 					</p>
 				@endif
 
-
+ --}}
 				<p>
 					<strong>Address:</strong>
 					<br>
-					{{$client->getFulladdress1()}}
-					<br>
-					{{$client->getFulladdress2()}}
+					{!! $client->getFulladdress() !!}
 				</p>
 				@if(isset($client->home_phone))
 					<p>
@@ -60,12 +58,7 @@
 
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
-
-		<div class="panel-heading">Projects</div>
-
 		@include('projects._table')
-		</div>
 	</div>
 </div>
 

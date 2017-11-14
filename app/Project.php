@@ -90,19 +90,16 @@ class Project extends Model
         return $projectname;
     }
 
-    //COMBIME both into one function and have a line break.
-    public function getFulladdress1()
+    public function getFulladdress()
     {
         if ($this->address_2 === null) {
-            return $this->address;
+            $address1 = $this->address;
         } else {
-            return $this->address . ', ' . $this->address_2;
+            $address1 = $this->address . ', ' . $this->address_2;
         }
-        
-    }
-    public function getFulladdress2()
-    {
-        return $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+            $address2 = $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+
+            return $address1 . '<br>' .  $address2;
     }
 
     public function getBid($vendor)

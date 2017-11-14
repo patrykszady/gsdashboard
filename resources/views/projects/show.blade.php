@@ -28,34 +28,28 @@ $(document).ready(function() {
 
 </script>
 
-
 <div class="row">
 	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-		    	<h3 class="panel-title">Project <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-default">Edit Project</a></h3>
+		    	<h3 class="panel-title">Project <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-default">Edit Project</a> <a href="{{ route('clients.edit', $project->client->id) }}" class="btn btn-default">Edit Client</a></h3>
 		  	</div>
 			<div class="panel-body">
 				<h3>@yield('title')</h3>
 				<hr>
 				<div class="col-xs-6">
-				<p>
-					<strong>Jobsite Address:</strong>
-					<br>
-					{{$project->getFulladdress1()}}
-					<br>
-					{{$project->getFulladdress2()}}
-				</p>
+					<p>
+						<strong>Jobsite Address:</strong>
+						<br>
+						{!! $project->getFulladdress() !!}
+					</p>
 				</div>
 				<div class="col-xs-6">
-				<p>
-					<strong>Billing Address:</strong>
-					<br>
-					{{$project->client->getFulladdress1()}}
-					<br>
-					{{$project->getFulladdress2()}}
-				</p>
-
+					<p>
+						<strong>Billing Address:</strong>
+						<br>
+						{!! $project->client->getFulladdress() !!}
+					</p>
 				</div>
 			
 				<div class="col-md-12">
