@@ -55,10 +55,6 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">Checks</div>
-			@include('checks._table')
-		</div>
+		@include('checks._table')
 	</div>
 </div>

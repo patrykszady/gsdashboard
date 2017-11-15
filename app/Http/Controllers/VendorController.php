@@ -39,7 +39,7 @@ class VendorController extends Controller
         } else {
             Session::put('takemeback', URL::previous()); 
         }
-        
+        $projects = Project::isActive();
         $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
         $expensess = Expense::where('paid_by', 'V:' . $vendor->id)->where('check_id', NULL)->get();
@@ -53,7 +53,6 @@ class VendorController extends Controller
 
     //create check
 
- 
     if($request->has('check_id')) {
         $check = new Check;
         $check->check = $request->check_id;
@@ -76,7 +75,6 @@ class VendorController extends Controller
     }
 
     //incoporate into ExpenseSplit??
-
     $count = count($request->expense_by_primary_vendor);
     for($i = 0; $i < $count; ++$i){
         if($request->expense_by_primary_vendor[$i] == null){
@@ -239,7 +237,6 @@ class VendorController extends Controller
             $expenses = $expenses->merge($splits);
   /*          $expenses = Expense::where('vendor_id', $vendor->id)->pluck('check_id');*/
             $checks = Check::whereIn('check', $expenses)->orderBy('date', 'desc')->get();
-
             $bids = Bid::where('vendor_id', $vendor->id)->get();
 
             $projects = Project::isActive(); //WOW HOW COOL!!!

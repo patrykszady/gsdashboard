@@ -5,7 +5,6 @@
 @section('content')
 
 <script type="text/javascript">
-
 $(document).ready(function() {
     var dataTable = $('#vendors_datatable').DataTable( {                                                 
         "info":     false,
@@ -65,6 +64,5 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
-
 
 @endsection
