@@ -38,13 +38,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">Active Projects <a href="{{ route('projects.create') }}" class="btn btn-primary">New Project</a></div>
-			@include('projects._table')
-		{{-- <div class="panel-heading">Projects with Balance</div>
-			@include('projects._tablevendorbalance') --}}
-		</div>
+		@include('projects._table', ['title'=>'Active Projects'])
 	</div>
 </div>
 <div class="row">

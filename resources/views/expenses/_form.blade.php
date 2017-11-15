@@ -129,9 +129,22 @@
 <div class="form-group {{ $errors->has('check_id') ? ' has-error' : ''}}">
 	<label for="check_id" class="col-sm-4 control-label">Check #</label>
 	<div class="col-sm-6">
-		<input type="number" disabled class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+		@if(isset($expense->check_id))
+		<div class="input-group">
+			<input type="number" disabled class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+			<span class="input-group-btn">
+				<a href="{{ route('checks.show', $expense->check_id) }}" class="btn btn-primary">Edit</a>
+			</span>
+		</div>
+		@else
+		<input type="number" class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+		@endif
 	</div>
 </div>
+
+
+
+
 
 
 @if(Session::has('receipt_img') or isset($expense->receipt))
@@ -144,20 +157,20 @@
 			<input type="text" class="form-control" id="receipt_img" name="receipt_img" disabled value="Upload New Below">
 			{{-- @include('expenses._receipt_modal', ['form_view' => 1]) --}}
 			<div class="modal fade bs-example-modal-lg-123" id="modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-<div class="modal-dialog modal-lg" role="document">
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			{{--  <h4 class="modal-title">{{ money($expense->amount) . ' for ' . $expense->vendor->business_name}}</h4> --}}
-			
-		</div>
-		<div class="modal-body">
-			<a href="{{ route('expenses.receipt', Session::get('receipt_img')) }}" target="_blank"><img src="{{route('expenses.receipt', Session::get('receipt_img'))}}" class="img-responsive" alt="Expense Receipt"></a>
-		{{-- @include('expenses._receipt') --}}
-		</div>
-	</div>
-</div>
-</div>
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						{{--  <h4 class="modal-title">{{ money($expense->amount) . ' for ' . $expense->vendor->business_name}}</h4> --}}
+						
+					</div>
+					<div class="modal-body">
+						<a href="{{ route('expenses.receipt', Session::get('receipt_img')) }}" target="_blank"><img src="{{route('expenses.receipt', Session::get('receipt_img'))}}" class="img-responsive" alt="Expense Receipt"></a>
+					{{-- @include('expenses._receipt') --}}
+					</div>
+				</div>
+			</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -180,7 +193,6 @@
 	</div>
 </div>
 @endif
-
 
 <div class="form-group">
 	<label for="note" class="col-sm-4 control-label">Notes</label>

@@ -84,7 +84,7 @@ $(document).ready(function() {
 					<li class="list-group-item">{{ money($project->project_total) }} | Project Estimate</li>
 					<li class="list-group-item">{{ money($project->change_order) }} | Change Order</li>
 					<li class="list-group-item">{{ money($project->getReimbursment()) }} | Reimbursment</li>
-					<li class="list-group-item">{{ money($project->getProjectTotalFormat()) }} | Project Total</li>
+					<li class="list-group-item">{{ money($project->getProjectTotal()) }} | Project Total</li>
 				</ul>
 			</div>
 			</div>

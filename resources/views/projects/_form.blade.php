@@ -35,10 +35,7 @@
 				<input id="inlineradio1" name="jobsite_address" value="1" type="radio" {{ old('jobsite_address') == 1 ? "checked" : "checked" }}>
 					@foreach ($clients as $client)
 							<div class="{{$client->id}} box">
-							{{-- This should be in one line! --}}
-							{{ $client->getFulladdress1() }}
-							<br>
-							{{ $client->getFulladdress2()}}
+								{!! $client->getFulladdress() !!}
 							</div>
 					@endforeach
 			</label>
@@ -63,6 +60,7 @@
 		</div>
 	</div> --}}
 
+<div id="row_dim"> {{-- Row for jquery to hide/show section --}}
 <div class="form-group {{ $errors->has('address') ? ' has-error' : ''}} {{ $errors->has('address_2') ? ' has-error' : ''}}">
 	<label for="address" class="col-sm-4 control-label">Address</label>
 	<div class="col-sm-4">
@@ -89,7 +87,7 @@
 	<input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="60070" value="{{ old('zip_code', isset($project) ? $project->zip_code : '') }}">
 	</div>
 </div>
-
+</div>
 <hr>
 
 <div class="form-group {{ $errors->has('project_total') ? ' has-error' : ''}}">

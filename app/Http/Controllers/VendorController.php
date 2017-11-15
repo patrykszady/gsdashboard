@@ -39,12 +39,11 @@ class VendorController extends Controller
         } else {
             Session::put('takemeback', URL::previous()); 
         }
-       
+        
         $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
         $expensess = Expense::where('paid_by', 'V:' . $vendor->id)->where('check_id', NULL)->get();
         $expensesss = Expense::where('reimbursment', $vendor->id)->where('check_id', NULL)->get();
-        $projects = Project::isActive();
         $bids = Bid::where('vendor_id', $vendor->id)->get();
         return view('vendors.payment', compact('vendor', 'expenses', 'projects', 'bids', 'expensess', 'expensesss', 'employees'));
     }

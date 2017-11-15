@@ -61,6 +61,7 @@ class StoreExpense extends FormRequest
           'vendor_id' => 'required|numeric',
           'paid_by' => 'required',
           'invoice' => 'nullable',
+          //if $request->expense isset and $expense->check isset, dont allow check to be changed.
           'check_id' => Rule::unique('checks', 'check')->ignore(isset($expense) ? $expense->check_id : '', 'check'),
           'reimbursment' => 'required',
           'note' => 'nullable|min:3',

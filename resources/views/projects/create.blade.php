@@ -19,6 +19,20 @@ $(document).ready(function(){
     }).change();
 });
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("#row_dim").hide();
+$('input[type="radio"]').click(function() {
+  if ($(this).attr("value") == 2) {
+    $("#row_dim").show();
+  } else {
+    $("#row_dim").hide();
+  }
+});
+});
+
+
+</script>
 
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">

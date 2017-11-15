@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 		    	<h3 class="panel-title">Client</h3>
@@ -36,24 +36,18 @@
 				<strong>Actions:</strong>
 				<br>
 				<a href="{{ route('clients.edit', $client->id) }}" class="btn btn-default">Edit</a>
-				<a href="{{ url('projects/create', $client->id) }}" class="btn btn-success">New Project</a>
-				
-
+				<a href="{{ route('projects.create', $client->id) }}" class="btn btn-success">New Project</a>
 			</div>
 		</div>
-
+	</div>
 	
-	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<div class="panel panel-default">
-
-		<div class="panel-heading">Contacts <a href="{{ url('users/create', $client->id) }}" class="btn btn-default">Add Another</a></div>
-
+			<div class="panel-heading">Contacts <a href="{{ route('users.create', $client->id) }}" class="btn btn-default">Add Another</a></div>
 		@include('users._table')
+		</div>
 	</div>
-	</div>
+
 </div>
 
 <div class="row">

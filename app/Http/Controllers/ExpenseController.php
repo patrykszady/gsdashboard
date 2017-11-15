@@ -273,9 +273,9 @@ class ExpenseController extends Controller
 
         //replacing existing receipt file
         if ($request->hasFile('receipt') and isset($expense->receipt)) {
-                $oldFilename = $expense->receipt;
-                $expense->receipt = Session::pull('receipt_img');
-                Storage::delete('receipts/' . $oldFilename);
+            $oldFilename = $expense->receipt;
+            $expense->receipt = Session::pull('receipt_img');
+            Storage::delete('receipts/' . $oldFilename);
         } elseif ($request->hasFile('receipt')) {
             $expense->receipt = Session::pull('receipt_img');
         } elseif (Session::has('receipt_img')) {

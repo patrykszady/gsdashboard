@@ -73,7 +73,6 @@ class Check extends Model
             $total = $this->expenses->sum('amount') + $this->hours->sum('amount'); 
         }
         
-      
         $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
 
         return '$' .  $total;      

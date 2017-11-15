@@ -7,14 +7,14 @@ use App\Project;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\StoreClient;
 use App\Http\Requests\StoreUser;
-use URL;
-
-use Illuminate\Support\Facades\Auth;
 
 use Session;
+use URL;
+
 
 class ClientController extends Controller
 {
@@ -91,22 +91,17 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        //Doesn't put a new 'takemeback' into the Session If url is this ('users.edit')
-        if(URL::previous() == url("clients/$client->id/edit")){
-
+        if(URL::previous() == URL::current()) {
         } else {
-            Session::put('takemeback', URL::previous()); //save last URL so when form is submitted i can be taken back ("intended")...eventually ends up in a Middleware
+            Session::put('takemeback', URL::previous());
         }
-        
+
         return view('clients.edit', compact('client'));
-        
     }
 
     public function update(StoreClient $request, Client $client)
     {
-        $client = Client::findOrFail($client);
         $client->update($request->all());
-        $client->save();
   
         return redirect(Session::pull('takemeback'))->with('success', 'Client ' . $client->getName() . ' was edited.');
     }

@@ -112,4 +112,15 @@ class Client extends Model
 
             return $address1 . '<br>' .  $address2;
     }
+
+    //get Total amount Client spend in lifetime //NEED to add ONLY WITH THIS COMPANY
+    public function getClientTotal()
+    {
+        $total = 0;
+        foreach ($this->projects as $project){
+            $total += Project::findOrFail($project->id)->getProjectTotal();
+        }
+
+        return $total; 
+    }
 }

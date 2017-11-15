@@ -40,16 +40,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<div class="panel panel-default">
-		<!-- Default panel contents -->
-		<div class="panel-heading">Client</div>
-{{-- 		<div class="panel-body">
-		<p>...</p>
-		</div> --}}
-
-		<!-- Table -->
 		@include('clients._table')
-	</div>
 	</div>
 </div>
 

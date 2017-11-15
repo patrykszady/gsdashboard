@@ -1,7 +1,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<form class="form-inline" autocomplete="off">
-		<div class="form-group">Projects <a href="{{ url('projects/create') }}" class="btn btn-primary">New Project</a>
+		<div class="form-group">{{isset($title) ? $title : 'Projects'}} <a href="{{ route('projects.create') }}" class="btn btn-primary">New Project</a>
 		</div>
 		<div class="form-group">
 			<label class="sr-only" for="filterbox_datatable">Search</label>

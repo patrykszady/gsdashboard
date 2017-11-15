@@ -173,12 +173,6 @@ class Project extends Model
         return  $total;  
     }
 
-    public function getProjectTotalFormat()
-    {
-        $total = $this->getProjectTotal();
-        return  $total;  
-    }
-
     public function getDistBalance($dist)
     {
         $total = $this->getProfit() * ($dist->pivot->percent * .01);

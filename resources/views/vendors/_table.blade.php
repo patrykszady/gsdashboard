@@ -1,4 +1,4 @@
-<table id="vendors" class="table table-striped table-hover">
+<table class="table table-striped table-hover" id="vendors_datatable">
 	<thead>
 	<tr>
 		<th>Business Name</th>

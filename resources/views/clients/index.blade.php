@@ -4,19 +4,32 @@
 
 @section('content')
 
-<div class="row">
+<script type="text/javascript">
 
-	<div class="col-md-10">
-		<h1>All Clients</h1>
-	</div>
+$(document).ready(function() {
+    var dataTable = $('#clients_datatable').DataTable( {                                                 
+        "info":     false,
+        "stateSave": true,
+      /*  "paging":   false,*/
+        "stateDuration": 120,
+        "sDom":     'ltipr',
+        "columnDefs": [
+			{ "searchable": false, "targets": 2 }
+		/*	{ "orderable": false, "targets": 3 }*/
+		],
+		"order": [[ 0, "desc" ]],
+		"bLengthChange": false
+    } );
 
-	<div class="col-md-2">
-		<a href="{{ route('clients.create') }}" class="btn btn-lg btn-block btn-primary">New Client</a>
-	</div>
-	
-</div>
+    $("#filterbox_datatable").keyup(function() {
+        dataTable.search(this.value).draw();
+    });    
+});
+
+</script>
+
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-10 col-md-offset-1">
 		@include('clients._table')		
 	</div>
 	

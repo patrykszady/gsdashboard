@@ -39,8 +39,8 @@ class ProjectController extends Controller
         }
         
         if(isset($client->id)) {
-            $client = Client::findOrFail($client->id);
-            return view('projects.create', compact('client'));
+            $clients = Client::all();
+            return view('projects.create', compact('client', 'clients'));
         } else {
             $clients = Client::all();
             return view('projects.create', compact('clients'));
