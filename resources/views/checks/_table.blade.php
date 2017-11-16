@@ -1,3 +1,25 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    var dataTable = $('#checks_datatable').DataTable( {                                                 
+        "info":     false,
+        "stateSave": true,
+      /*  "paging":   false,*/
+        "stateDuration": 120,
+        "sDom":     'ltipr',
+/*        "columnDefs": [
+			{ "searchable": false, "targets": 3 },
+			{ "orderable": false, "targets": 3 }
+		],*/
+		"order": [[ 0, "desc" ]],
+		"bLengthChange": false
+    } );
+
+    $("#filterbox_datatable").keyup(function() {
+        dataTable.search(this.value).draw();
+    });    
+});
+</script>
+
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<form class="form-inline" autocomplete="off">
@@ -19,17 +41,11 @@
 	</thead>
 	<tbody>	
 		@foreach ($checks as $check)
-		{{dd($check->expenses()->get()) }}
 			<tr>
 				<td>{{ $check->getDate() }}</td>
 				<td><a href="{{ route('checks.show', $check->check)}}">{{ $check->check }}</td>
-				<td data-search="{{$check->getTotal()}}">{!! money($check->getTotal()) !!}</td>
-				{{--  --}}
-				@if(isset($check->getPayee()->first_name))
-					<td><a href="{{ route('users.show', $check->getPayee()->id)}}"> {{ $check->getName()}}</td>
-       	 		@elseif (isset($check->getPayee()->business_name))
-           			<td><a href="{{ route('vendors.show', $check->getPayee()->id)}}"> {{ $check->getName()}}</td>
-            	@endif	
+				<td data-search="{{$check->getTotal(isset($vendor) ? $vendor : '')}}">{!! money($check->getTotal(isset($vendor) ? $vendor : '')) !!}</td>
+				<td><a href="{{ $check->getPayeeRoute() }}"> {{ $check->getName()}}</td>
 			</tr>
 		@endforeach
 	</tbody>

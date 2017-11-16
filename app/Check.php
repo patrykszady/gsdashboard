@@ -43,15 +43,23 @@ class Check extends Model
         } elseif($this->expenses->count() > 0 and $this->expenses->last()->paid_by == 0) {  //paid by 0
             $payee = $this->expenses->last()->vendor->id;
             $user = Vendor::findOrFail($payee);
-
- 
         } elseif ($this->expenses->count() > 0 and $this->expenses->first()->paid_by > 0){
-            
             $user = User::findOrFail($this->expenses->first()->paid_by);
         }
 
         return $user;
 
+    }
+
+    public function getPayeeRoute()
+    {
+        if(isset($this->getPayee()->first_name)){
+            $route = route('users.show', $this->getPayee()->id);
+        } elseif(isset($this->getPayee()->business_name)) {
+            $route = route('vendors.show', $this->getPayee()->id);
+        }
+
+        return $route;
     }
 
     public function getName()
@@ -65,16 +73,20 @@ class Check extends Model
         return $payee;
     }
 
-    public function getTotal()
+    public function getTotal($vendor = NULL)
     {
-        dd();
-/*        if(isset($vendor)){
+        if(!empty($vendor)){
             $total = $this->expenses->where('vendor_id', $vendor->id)->sum('amount'); 
         } else {
             $total = $this->expenses->sum('amount') + $this->hours->sum('amount'); 
         }
-*/
 
         return $total;      
+    }
+
+    public function getCreatedBy()
+    {
+        $created_by = User::findOrFail($this->created_by_user_id)->first_name;
+        return $created_by;      
     }
 }

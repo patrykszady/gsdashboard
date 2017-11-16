@@ -15,7 +15,7 @@
 				<tbody>
 					<tr>
 						<td width="35%"><strong>Date</strong></td>
-						<td>{{ $expense->getDate() }}</td>
+						<td>{{ $expense->expense_date->toFormattedDateString() }}</td>
 					</tr>
 					<tr>
 						<td><strong>Amount</strong></td>
@@ -69,8 +69,8 @@
 						<td><a href="{{ route('checks.show', $expense->check_id)}}">{{ $expense->check_id }}</a></td>
 					</tr>
 					<tr>
-						<td><strong>Created By</strong></td>
-						<td><a href="{{ route('users.show', $expense->created_by_user_id)}}">{{ $expense->getCreatedBy() }}</a></td>
+						<td><strong>Entered By</strong></td>
+						<td><a href="{{ route('users.show', $expense->created_by_user_id) }}">{{ $expense->getCreatedBy() }}</a> on {{$expense->updated_at->toFormattedDateString() }}</td>
 					</tr>
 					<tr>
 						<td><strong>Notes</strong></td>

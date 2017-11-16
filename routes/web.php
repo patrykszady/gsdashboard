@@ -74,6 +74,7 @@ Route::patch('distributions/project/{project}', ['uses' => 'DistributionControll
 
 Route::resource('hours', 'HourController');
 Route::resource('checks', 'CheckController');
+
 Route::get('receipts/makepdf', 'ReceiptController@makePdfReceipt');
 Route::resource('receipts', 'ReceiptController');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Check;
+use App\User;
 use Illuminate\Http\Request;
 
 class CheckController extends Controller
@@ -19,7 +20,6 @@ class CheckController extends Controller
     public function index()
     {
         $checks = Check::orderBy('date', 'desc')->get();
-
         return view('checks.index', compact('checks'));
     }
 
@@ -63,7 +63,7 @@ class CheckController extends Controller
      */
     public function edit(Check $check)
     {
-        //
+        return view('checks.edit', compact('check'));
     }
 
     /**
@@ -75,7 +75,11 @@ class CheckController extends Controller
      */
     public function update(Request $request, Check $check)
     {
-        //
+        $check->date = $request->date;
+        $check->check = $request->check;
+        $check->save();
+        dd($check);
+        return view('checks.show', compact('check'));   
     }
 
     /**

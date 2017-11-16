@@ -4,29 +4,6 @@
 
 @section('content')
 
-<script type="text/javascript">
-
-$(document).ready(function() {
-    var dataTable = $('#expenses_datatable').DataTable( {                                                 
-        "info":     false,
-        "stateSave": true,
-      /*  "paging":   false,*/
-        "stateDuration": 120,
-        "sDom":     'ltipr',
-        "columnDefs": [
-			{ "searchable": false, "targets": 4 },
-			{ "orderable": false, "targets": 4 }
-		],
-		"order": [[ 0, "desc" ]],
-		"bLengthChange": false
-    } );
-
-    $("#filterbox_datatable").keyup(function() {
-        dataTable.search(this.value).draw();
-    });    
-});
-
-</script>
 
 @if($expense_input > 0)
 	<div class="row">

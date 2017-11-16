@@ -50,9 +50,7 @@ class VendorController extends Controller
 
     public function vendorStorePayment(StoreVendorPayment $request)
     {
-
     //create check
-
     if($request->has('check_id')) {
         $check = new Check;
         $check->check = $request->check_id;
@@ -73,7 +71,6 @@ class VendorController extends Controller
         $expense->save();
         }       
     }
-
     //incoporate into ExpenseSplit??
     $count = count($request->expense_by_primary_vendor);
     for($i = 0; $i < $count; ++$i){
@@ -226,7 +223,7 @@ class VendorController extends Controller
             $bids = Bid::all();
             $hours = User::employees()->get();
 
-            $projects = Project::isActive(); //WOW HOW COOL!!!
+            $projects = Project::isActive();
             $balances = Project::notActive();
             
             return view('vendors.show', compact('vendor', 'users', 'checks', 'bids', 'projects', 'balances', 'hours'));
@@ -235,11 +232,10 @@ class VendorController extends Controller
             $expenses = $vendor->expenses()->get();
             $splits = $vendor->expenseSplits()->with('expense')->get();
             $expenses = $expenses->merge($splits);
-  /*          $expenses = Expense::where('vendor_id', $vendor->id)->pluck('check_id');*/
-            $checks = Check::whereIn('check', $expenses)->orderBy('date', 'desc')->get();
-            $bids = Bid::where('vendor_id', $vendor->id)->get();
-
-            $projects = Project::isActive(); //WOW HOW COOL!!!
+            //Get checks where (on Checks table) check = any of the arrayed check_id #is
+            $checks = Check::whereIn('check', $expenses->pluck('check_id'))->orderBy('date', 'desc')->get(); 
+            $bids = $vendor->bids()->get();
+            $projects = Project::isActive();
             $balances = Project::notActive();
             
             return view('vendors.show', compact('vendor', 'users', 'checks', 'bids', 'projects', 'balances', 'expenses'));

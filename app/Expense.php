@@ -138,7 +138,6 @@ class Expense extends Model
     public function getCreatedBy()
     {
         $created_by = User::findOrFail($this->created_by_user_id)->first_name;
-
         return $created_by;      
     }
     

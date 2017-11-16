@@ -1,11 +1,33 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    var dataTable2 = $('#expenses_datatable').DataTable( {                                                 
+        "info":     false,
+        "stateSave": true,
+      /*  "paging":   false,*/
+        "stateDuration": 120,
+        "sDom":     'ltipr',
+        "columnDefs": [
+			{ "searchable": false, "targets": 4 },
+			{ "orderable": false, "targets": 4 }
+		],
+		"order": [[ 0, "desc" ]],
+		"bLengthChange": false
+    } );
+
+    $("#filterbox_datatable2").keyup(function() {
+        dataTable2.search(this.value).draw();
+    });    
+});
+</script>
+
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<form class="form-inline" autocomplete="off">
 		<div class="form-group">Expenses <a href="{{ url('expenses/create') }}" class="btn btn-primary">New Expense</a>
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="filterbox_datatable">Search</label>
-			<input type="text" class="form-control" id="filterbox_datatable" placeholder="Search">
+			<label class="sr-only" for="filterbox_datatable2">Search</label>
+			<input type="text" class="form-control" id="filterbox_datatable2" placeholder="Search">
 		</div>
   	</form>
 	</div>

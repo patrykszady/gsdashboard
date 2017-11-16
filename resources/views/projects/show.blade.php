@@ -5,7 +5,6 @@
 @section('content')
 
 <script type="text/javascript">
-
 $(document).ready(function() {
     var dataTable = $('#expenses_datatable').DataTable( {                                                 
         "info":     false,
@@ -25,7 +24,6 @@ $(document).ready(function() {
         dataTable.search(this.value).draw();
     });    
 });
-
 </script>
 
 <div class="row">
