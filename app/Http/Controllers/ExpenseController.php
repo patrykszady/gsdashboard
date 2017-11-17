@@ -119,20 +119,24 @@ class ExpenseController extends Controller
     {
         //foreach checks as check -> find expeses with check_id = check->check and change to $check-id
 
-        $checks = Check::all();
+/*        $checks = Check::all();
         foreach ($checks as $check){
             foreach (Expense::where('check_id', $check->check)->get() as $expense){
                 $expense->check_id = $check->id;
                 $expense->save();
             }
-        }
-/*        $checks = Check::all();
+        }*/
+
+
+
+        
+        $checks = Check::all();
         foreach ($checks as $check){
             foreach (Hour::where('check_id', $check->check)->get() as $hour){
                 $hour->check_id = $check->id;
                 $hour->save();
             }
-        }*/
+        }
     }
 
     public function create()
