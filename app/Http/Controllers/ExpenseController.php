@@ -115,6 +115,26 @@ class ExpenseController extends Controller
         return back();      
     }
 
+    public function changechecks()
+    {
+        //foreach checks as check -> find expeses with check_id = check->check and change to $check-id
+
+        $checks = Check::all();
+        foreach ($checks as $check){
+            foreach (Expense::where('check_id', $check->check)->get() as $expense){
+                $expense->check_id = $check->id;
+                $expense->save();
+            }
+        }
+/*        $checks = Check::all();
+        foreach ($checks as $check){
+            foreach (Hour::where('check_id', $check->check)->get() as $hour){
+                $hour->check_id = $check->id;
+                $hour->save();
+            }
+        }*/
+    }
+
     public function create()
     {
         //if url changed and come back, expenses and 'expense_refresh' remains. 'expense_refresh' always remains until session expires or DONE or Leaves
@@ -173,7 +193,7 @@ class ExpenseController extends Controller
         //check exists and $check exists
         } elseif(!is_null($request->check_id) and $check != null) {
             $check = Check::findOrFail($check->id);
-            $expense->check_id = $request->check_id;
+            $expense->check_id = $check->id;
 
         //Create new check
         } else {
@@ -183,7 +203,7 @@ class ExpenseController extends Controller
             $check->created_by_user_id = Auth::id();
             $check->save();
 
-            $expense->check_id = $check->check;
+            $expense->check_id = $check->id;
         }
 
         if($request->project_id == 0 AND is_numeric($request->project_id)) {

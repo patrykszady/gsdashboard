@@ -32,6 +32,7 @@ Route::get('/', function () {
 Route::get('hd', 'ReceiptController@index');
 
 Route::get('/home', 'HomeController@index');
+Route::get('/changechecks', 'ExpenseController@changechecks');
 
 Route::get('hours/payment/{id}', ['uses' => 'HourController@hoursPayment', 'as' => 'hours.payment']);
  //get action for this URI called TWICE!

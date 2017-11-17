@@ -10,7 +10,7 @@
 		    	<h3 class="panel-title">@yield('title')</h3>
 		  	</div>
 			<div class="panel-body">
-				<form class="form-horizontal" action="/checks/{{$check->check}}" method="POST" autocomplete="off" enctype="multipart/form-data">
+				<form class="form-horizontal" action="/checks/{{$check->id}}" method="POST" autocomplete="off" enctype="multipart/form-data">
 				{{ csrf_field() }}
 				{{ method_field('PATCH') }}
 					@include('checks._form')
@@ -21,7 +21,7 @@
 							<button type="submit" name="update" value="update" class="btn btn-success btn-block">Update</button>
 						</div>
 						<div class="col-sm-2">
-							<a href="{{ route('checks.destroy', $check->check) }}" class="btn btn-danger btn-block"
+							<a href="{{ route('checks.destroy', $check->id) }}" class="btn btn-danger btn-block"
 				                onclick="event.preventDefault();
 				                         document.getElementById('destroy-form').submit();">
 				                Delete
@@ -31,7 +31,7 @@
 
 				</form>
 
-				<form id="destroy-form" action="{{ route('checks.destroy', $check->check) }}" method="POST" style="display: none;">
+				<form id="destroy-form" action="{{ route('checks.destroy', $check->id) }}" method="POST" style="display: none;">
 	                {{ csrf_field() }}
 	                {{ method_field('DELETE') }}
 	            </form>

@@ -13,25 +13,30 @@ class Check extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 	protected $dates = ['date', 'expense_date'];
     
-    public function getRouteKeyName()
+/*    public function getRouteKeyName()
     {
         return 'check';
     }
-	
+	*/
     public function expenses()
     {
-        return $this->hasMany('App\Expense','check_id', 'check');
+        return $this->hasMany('App\Expense');
     }
 
     public function hours()
     {
-        return $this->hasMany('App\Hour', 'check_id', 'check');
+        return $this->hasMany('App\Hour');
     }
 
     public function getDate()
     {
         $date = Carbon::parse($this->date)->toFormattedDateString();
         return $date;     
+    }
+
+    public function setDateAttribute($date)
+    {
+        $this->attributes['date'] = new Carbon($date);
     }
 
     public function getPayee()

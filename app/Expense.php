@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Laravel\Scout\Searchable;
 use App\Vendor;
 use App\Project;
 use App\ExpenseSplit;
@@ -37,7 +36,7 @@ class Expense extends Model
 
     public function check()
     {
-        return $this->belongsTo('App\Check', 'check', 'check_id');
+        return $this->belongsTo('App\Check');
     }
 /*    public function splitExpenses()
     {

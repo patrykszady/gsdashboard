@@ -11,8 +11,6 @@ class Hour extends Model
 {
 	protected $dates = ['date'];
 
-
-
     public function project()
     {
         return $this->belongsTo('App\Project');

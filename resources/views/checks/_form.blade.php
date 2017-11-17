@@ -8,7 +8,7 @@
 <div class="form-group {{ $errors->has('check') ? ' has-error' : ''}}">
 	<label for="check" class="col-sm-4 control-label">Check #</label>
 	<div class="col-sm-6">
-		<input type="text" class="form-control" id="check" name="check" placeholder="1234.56" value="{{ old('check', isset($check) ? $check->check : '') }}">
+		<input type="text" class="form-control" id="check" name="check" placeholder="1234" value="{{ old('check', isset($check) ? $check->check : '') }}">
 	</div>
 </div>
 

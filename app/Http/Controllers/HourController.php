@@ -88,6 +88,7 @@ class HourController extends Controller
         }
 
         $user = User::findOrfail($id);
+            //doesnthave
         $expenses = Expense::where('paid_by', $id)->where('check_id', '=', NULL)->get();
 
         $hours = Hour::where('user_id', $user->id)->where('check_id', '=', NULL)->get();
@@ -102,39 +103,38 @@ class HourController extends Controller
 
     public function storePayment(StoreHourPayment $request)
     {
-
-    $count = count($request->expense);
-    for($i = 0; $i < $count; ++$i){
-        if($request->expense[$i] == null){
-
-        } else {
-        $expense = Expense::findOrfail($request->expense[$i]);
-        $expense->check_id = $request->check;
-        $expense->update();
-        }       
-    }      
-
-    $count1 = count($request->hour);
-    for($i = 0; $i < $count1; ++$i){
-        if($request->hour[$i] == null){
-
-        } else {
-        $hour = Hour::findOrfail($request->hour[$i]);
-        $hour->check_id = $request->check;
-        $hour->update();
-        }       
-    }
-
-    if($count == 0 and $count1 == 0){
+        
+    $count_expenses = count($request->expense);
+    $count_hours = count($request->hour);
+    //if both empty, do not create a new check, otherwise, make new check
+    if($count_expenses == 0 and $count_hours == 0){
     }else {
         $check = new Check;
         $check->check = $request->check;
         $check->date = Carbon::parse($request->date)->toDateTimeString();
         $check->created_by_user_id = Auth::id();
         $check->save();
-    }        
-        // Session::flash('success', 'Hours for ' . $hour->user_id . ' were added.');
+    }
 
+    for($i = 0; $i < $count_expenses; ++$i){
+        if($request->expense[$i] == null){
+
+        } else {
+        $expense = Expense::findOrfail($request->expense[$i]);
+        $expense->check_id = $check->id;
+        $expense->update();
+        }       
+    }      
+    
+    for($i = 0; $i < $count_hours; ++$i){
+        if($request->hour[$i] == null){
+
+        } else {
+        $hour = Hour::findOrfail($request->hour[$i]);
+        $hour->check_id = $check->id;
+        $hour->update();
+        }       
+    }
         return redirect(Session::pull('takemeback'))->with('success', 'Payment was added');
     }
     /**m

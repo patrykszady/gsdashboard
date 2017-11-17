@@ -42,8 +42,8 @@ $(document).ready(function() {
 	<tbody>	
 		@foreach ($checks as $check)
 			<tr>
-				<td>{{ $check->getDate() }}</td>
-				<td><a href="{{ route('checks.show', $check->check)}}">{{ $check->check }}</td>
+				<td data-order="{{$check->date}}">{{ $check->getDate() }}</td>
+				<td><a href="{{ route('checks.show', $check->id)}}">{{ $check->check }}</td>
 				<td data-search="{{$check->getTotal(isset($vendor) ? $vendor : '')}}">{!! money($check->getTotal(isset($vendor) ? $vendor : '')) !!}</td>
 				<td><a href="{{ $check->getPayeeRoute() }}"> {{ $check->getName()}}</td>
 			</tr>

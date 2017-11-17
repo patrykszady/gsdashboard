@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Check;
 use App\User;
+
 use Illuminate\Http\Request;
+
+use App\Http\Requests\StoreCheck;
 
 class CheckController extends Controller
 {
@@ -73,12 +76,12 @@ class CheckController extends Controller
      * @param  \App\Check  $check
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Check $check)
+    public function update(StoreCheck $request, Check $check)
     {
         $check->date = $request->date;
         $check->check = $request->check;
         $check->save();
-        dd($check);
+        
         return view('checks.show', compact('check'));   
     }
 

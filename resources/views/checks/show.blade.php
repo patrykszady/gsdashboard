@@ -8,7 +8,7 @@
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-		    	<h3 class="panel-title">Check {{$check->check}} <a href="{{ route('checks.edit', $check->check) }}" class="btn btn-default">Edit Check</a>
+		    	<h3 class="panel-title">Check <strong>{{$check->check}}</strong> <a href="{{ route('checks.edit', $check->id) }}" class="btn btn-default">Edit Check</a>
 		    	</h3>
 		  	</div>
 			<table class="table table-hover">
@@ -23,7 +23,7 @@
 					</tr>
 					<tr>
 						<td><strong>Check Number</strong></td>
-						<td>{{ $check->check }}</td>
+						<td><strong>{{ $check->check }}</strong></td>
 					</tr>
 					<tr>
 						<td><strong>Date</strong></td>
@@ -49,7 +49,7 @@
 <div class="row"> 
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-default">
-			<div class="panel-heading">Individual Timesheets <a href="{{ url('hours/create') }}" class="btn btn-default">New Timesheet</a></div>
+			<div class="panel-heading">Individual Timesheets <a href="{{ route('hours.create') }}" class="btn btn-default">New Timesheet</a></div>
 		
 			<table class="table table-striped table-hover">
 				<thead>

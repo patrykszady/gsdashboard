@@ -38,7 +38,13 @@ class StoreExpense extends FormRequest
     public function rules()
     {          
         //check if antother expense exists with same vendor on same date with same check
-        $expense = Expense::where('check_id', $this->check_id)->where('check_id', '!=', null)->where('vendor_id', $this->vendor_id)->where('expense_date', Carbon::parse($this->expense_date)->toDateTimeString())->first();
+        if(isset($request->check_id)){
+          $check = Check::where('check', $this->check_id)->first()->id;
+        } else {
+          $check = 0;
+        }
+        //expense with $this->check in in 'check'
+        $expense = Expense::where('check_id', $check)->where('vendor_id', $this->vendor_id)->where('expense_date', Carbon::parse($this->expense_date)->toDateTimeString())->first();
 
         //save receipt before validation runs
         if (Request::hasFile('receipt')) {
@@ -62,7 +68,7 @@ class StoreExpense extends FormRequest
           'paid_by' => 'required',
           'invoice' => 'nullable',
           //if $request->expense isset and $expense->check isset, dont allow check to be changed.
-          'check_id' => Rule::unique('checks', 'check')->ignore(isset($expense) ? $expense->check_id : '', 'check'),
+          'check_id' => Rule::unique('checks', 'check')->ignore(isset($expense) ? $expense->check->check : '', 'check'),
           'reimbursment' => 'required',
           'note' => 'nullable|min:3',
           'receipt' => 'required_if:reimbursment,Client',

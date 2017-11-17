@@ -66,7 +66,7 @@
 					</tr>
 					<tr>
 						<td><strong>Check</strong></td>
-						<td><a href="{{ route('checks.show', $expense->check_id)}}">{{ $expense->check_id }}</a></td>
+						<td><a href="{{ route('checks.show', $expense->check_id)}}">{{ $expense->check->check }}</a></td>
 					</tr>
 					<tr>
 						<td><strong>Entered By</strong></td>
