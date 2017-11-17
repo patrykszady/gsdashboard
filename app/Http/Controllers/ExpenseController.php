@@ -127,16 +127,13 @@ class ExpenseController extends Controller
             }
         }*/
 
-
-
-        
-        $checks = Check::all();
+/*        $checks = Check::all();
         foreach ($checks as $check){
             foreach (Hour::where('check_id', $check->check)->get() as $hour){
                 $hour->check_id = $check->id;
                 $hour->save();
             }
-        }
+        }*/
     }
 
     public function create()
