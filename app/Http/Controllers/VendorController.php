@@ -32,15 +32,15 @@ class VendorController extends Controller
 
     public function vendorPayment(Vendor $vendor)
     {
-        dd($vendor->getBalance());
         //Doesn't put a new 'takemeback' into the Session If url is this ('users.edit')
         if(URL::previous() == URL::current()) {
         //save last URL so when form is submitted i can be taken back ("intended")...eventually ends up in a Middleware        
         } else {
             Session::put('takemeback', URL::previous()); 
         }
-
-        $projects = Project::isActive(); //projects with balance that belong to this vendor
+        
+      /*  $projects = Project::isActive(); */
+        $projects = $vendor->projects()->distinct()->get(); //projects with balance that belong to this vendor*/
         $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
         $expensess = Expense::where('paid_by', 'V:' . $vendor->id)->where('check_id', NULL)->get();

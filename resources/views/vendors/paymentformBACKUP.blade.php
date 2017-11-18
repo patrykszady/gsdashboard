@@ -1,51 +1,49 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <input name="vendor_id" type="hidden" value="{{ $vendor->id }}">
+<div class="vendor_accounts">
+
 
 @foreach ($projects as $key => $project)
 @if($project->getBidbalance($vendor) > 0)
 <?php $key = $key-1; ?>
-<div class="vendor_accounts panel panel-default">
-<div class="panel-heading">{{$project->getProjectname()}}</div>
+
+<h4>{{$project->getProjectname()}}</h4>
+
 <div class="form-group counts">
-  <br>
-  <div class="col-md-12">
   <div class="col-sm-4">
-    <div class="input-group {{ $errors->has("bid.$key") ? ' has-error' : '' }}">
-    <div class="input-group-addon">Bid</div>
-      <input type="text" class="form-control bid" id="bid.$key" placeholder="1200" name="bid[]" value="{{ old("bid.$key", $project->bids->where('vendor_id', $vendor->id)->sum('amount')) }}">
-    </div>
+  <div class="input-group {{ $errors->has("bid.$key") ? ' has-error' : '' }}">
+  <div class="input-group-addon">Bid</div>
+    <input type="text" class="form-control bid" id="bid.$key" placeholder="1200" name="bid[]" value="{{ old("bid.$key", $project->bids->where('vendor_id', $vendor->id)->sum('amount')) }}">
   </div>
+  </div>
+
+
+
   <div class="col-sm-4">
+
     <div class="input-group {{ $errors->has("amount.$key")  ? ' has-error' : '' }}">
-    <div class="input-group-addon">Payment</div>
-      <input type="text" class="form-control payment" id="$amount.$key" name="amount[]" value="{{ old("amount.$key") }}">
-    </div>
+
+  <div class="input-group-addon">Payment</div>
+    <input type="text" class="form-control payment" id="$amount.$key" name="amount[]" value="{{ old("amount.$key") }}">
+   
   </div>
+  </div>
+
   <div class="col-sm-4">
-    <div class="input-group">
-    <div class="input-group-addon">Balance</div>
-      <input type="text" disabled class="form-control balance" id="balance.$key" placeholder="1200" name="balance[]" value="{{$project->bids->where('vendor_id', $vendor->id)->sum('amount') - $project->expenses->where('vendor_id', $vendor->id)->sum('amount') }}">
-    </div>
-    <input type="hidden" class="form-control current_balance" value="{{$project->expenses->where('vendor_id', $vendor->id)->sum('amount')}}">
+  <div class="input-group">
+  <div class="input-group-addon">Balance</div>
+    <input type="text" disabled class="form-control balance" id="balance.$key" placeholder="1200" name="balance[]" value="{{$project->bids->where('vendor_id', $vendor->id)->sum('amount') - $project->expenses->where('vendor_id', $vendor->id)->sum('amount') }}">
   </div>
+  <input type="hidden" class="form-control current_balance" value="{{$project->expenses->where('vendor_id', $vendor->id)->sum('amount')}}">
+  </div>
+
 </div>
-</div>
-<ul class="list-group">
-<h5 class="list-group-item-text" style="padding-left:10px">Past payments for project</h5>
-@foreach($project->expenses()->where('vendor_id', $vendor->id)->get() as $expense)
-  <li class="list-group-item">
-    {{money($expense->amount)}} on 
-    {{$expense->getDate()}}
-    @if(isset($expense->check) == true)
-    with Check <a href="{{ route('checks.show', $expense->check->id)}}">{{ $expense->check->check }}</a>
-    @endif
-  </li>
-@endforeach
-</ul>
   <input name="project_id[]" id="project_id.$key" type="hidden" value="{{$project->id}}">
-</div>
+<hr>
 @endif
 @endforeach
+
+</div>
 
 <div class="panel panel-default">
 <!-- Default panel contents -->

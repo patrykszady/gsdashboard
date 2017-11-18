@@ -15,7 +15,7 @@ $(document).ready(function() {
 			{ "searchable": false, "targets": 4 },
 			{ "orderable": false, "targets": 4 }
 		],
-		"order": [[ 0, "desc" ]],
+		"order": [[ 0, "asc" ]],
 		"bLengthChange": false
     } );
 

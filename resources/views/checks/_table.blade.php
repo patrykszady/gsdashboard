@@ -21,7 +21,7 @@
 		@foreach ($checks as $check)
 			<tr>
 				<td data-order="{{$check->date}}">{{ $check->getDate() }}</td>
-				<td><a href="{{ route('checks.show', $check->id)}}">{{ $check->check }}</td>
+				<td><a href="{{ route('checks.show', $check->id)}}">{{ $check->check }}</a></td>
 				<td data-search="{{$check->getTotal(isset($vendor) ? $vendor : '')}}">{!! money($check->getTotal(isset($vendor) ? $vendor : '')) !!}</td>
 				<td><a href="{{ $check->getPayeeRoute() }}"> {{ $check->getName()}}</td>
 			</tr>

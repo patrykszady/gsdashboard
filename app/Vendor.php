@@ -86,12 +86,27 @@ class Vendor extends Model
     }
     public function getBalance()
     {
-/*        $expenses = $this->getYTD();
+  /*      $expenses = $this->expenses()->sum('amount');
         $bids = $this->bids->sum('amount');
         $total = $bids - $expenses;
-     */
-        $total = 0;
+        $total = $expenses;*/
+        
         if($this->biz_type == 1){
+            $total = 0;
+            foreach($this->projects()->distinct()->get() as $project){
+                $balance = $project->getBidbalance($this);
+                if($balance > 0){
+                    $total += $project->getVendorBid($this) - $project->getTotal($this);   
+                } 
+            }  
+        }else{
+            $total = 0;
+        }
+        
+     
+/*        
+        if($this->biz_type == 1){
+            $total = 0;
             foreach($this->projects()->get() as $project){
                 $balance = $project->getBidbalance($this);
                 if($balance > 0){
@@ -101,7 +116,7 @@ class Vendor extends Model
         }else{
             $total = 0;
         }
-        
+        */
         return $total;
     }
 }

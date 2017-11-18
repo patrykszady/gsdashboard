@@ -31,7 +31,6 @@ class Distribution extends Model
         }
 
         $total = $total - $this->getDistPaid();
-
         return $total;
     }
 
