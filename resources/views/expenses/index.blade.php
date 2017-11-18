@@ -15,11 +15,11 @@ $(document).ready(function() {
 			{ "searchable": false, "targets": 4 },
 			{ "orderable": false, "targets": 4 }
 		],
-		"order": [[ 0, "asc" ]],
+		"order": [[ 0, "desc" ]],
 		"bLengthChange": false
     } );
 
-    $("#filterbox_datatable2").keyup(function() {
+    $("#filterbox_datatable").keyup(function() {
         dataTable.search(this.value).draw();
     });    
 });
