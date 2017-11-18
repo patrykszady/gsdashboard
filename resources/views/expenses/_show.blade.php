@@ -26,12 +26,17 @@
 						<td><a href="{{ route('vendors.show', $expense->vendor->id)}}">{{ $expense->vendor->getName() }}</a></td>
 					</tr>
 					<tr>
+						@if(isset($expensesplit))
+
+						@else
+
 						@if(isset($expense->project_id))
 							<td><strong>Project</strong></td>
 							<td><a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a></td>
 						@else
 							<td><strong>Account</strong></td>
 							<td><a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a></td>
+						@endif
 						@endif
 					</tr>
 				</tbody>

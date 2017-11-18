@@ -114,13 +114,10 @@ $(document).ready(function() {
 		<th>Vendor</th>
 		<th>Amount</th>
 		<th>Receipt</th>
-		<th>Actions</th>
+	{{-- 	<th>Actions</th> --}}
 	</thead>
-
 	<tbody>
-		
 		@foreach ($reimbursment as $expense)
-
 			<tr>
 				<td>{{ $expense->getDate() }}</td>
 				<td>
@@ -130,22 +127,14 @@ $(document).ready(function() {
 				<td>
 					@include('expenses._receipt_modal')
 				</td>
-				
-				<td>
+				{{-- <td>
 					<a href="{{ route('expenses.show', $expense->getId()) }}" class="btn btn-default">View</a>
 					<a href="{{ route('expenses.edit', $expense->getId()) }}" class="btn btn-default">Edit</a>
-				</td>
+				</td> --}}
 			</tr>
-
 		@endforeach
-
 	</tbody>
 </table>
-
-
-		
-
-
 	</div>
 	</div>
 </div>
@@ -153,7 +142,7 @@ $(document).ready(function() {
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-		<div class="panel-heading">Expenses <a href="{{ url('expenses/create') }}" class="btn btn-default">Add Another</a></div>
+		<div class="panel-heading">Vendor Totals <a href="{{ url('expenses/create') }}" class="btn btn-default">Add Another</a></div>
 <table class="table table-striped table-hover">
 	<thead>
 		<th>Vendor</th>
