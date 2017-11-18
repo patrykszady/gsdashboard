@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -9,7 +10,8 @@ use DB;
 
 class Hour extends Model
 {
-	protected $dates = ['date'];
+    use SoftDeletes;
+	protected $dates = ['date', 'deleted_at'];
 
     public function project()
     {

@@ -32,14 +32,15 @@ class VendorController extends Controller
 
     public function vendorPayment(Vendor $vendor)
     {
+        dd($vendor->getBalance());
         //Doesn't put a new 'takemeback' into the Session If url is this ('users.edit')
         if(URL::previous() == URL::current()) {
-
         //save last URL so when form is submitted i can be taken back ("intended")...eventually ends up in a Middleware        
         } else {
             Session::put('takemeback', URL::previous()); 
         }
-        $projects = Project::isActive();
+
+        $projects = Project::isActive(); //projects with balance that belong to this vendor
         $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
         $expensess = Expense::where('paid_by', 'V:' . $vendor->id)->where('check_id', NULL)->get();
@@ -65,7 +66,7 @@ class VendorController extends Controller
 
         } else {
         $expense = Expense::findOrFail($request->expense[$i]);
-        $expense->check_id = $request->check_id;
+        $expense->check_id = $check->id;
         $expense->created_by_user_id = Auth::id();
 
         $expense->save();
@@ -81,7 +82,7 @@ class VendorController extends Controller
         $expense = new Expense;
         $expense->project_id = $old_expense->project_id;
         $expense->distribution_id = $old_expense->distribution_id;
-        $expense->check_id = $request->check_id;
+        $expense->check_id = $check->id;
         $expense->created_by_user_id = Auth::id();
         $expense->amount = '-' . $old_expense->amount;
         $expense->expense_date = $old_expense->expense_date;
@@ -102,7 +103,7 @@ class VendorController extends Controller
         } else {
         $expense = new Expense;
         $expense->project_id = $request->project_id[$i];
-        $expense->check_id = $request->check_id;
+        $expense->check_id = $check->id;
         $expense->created_by_user_id = Auth::id();
         $expense->amount = $request->amount[$i];
         $expense->expense_date = $request->expense_date;
@@ -138,6 +139,7 @@ class VendorController extends Controller
 
     public function payment()
     {
+        dd('in VendorController.payment');
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
 
         return view('vendors.payment', compact('vendor', 'expenses'));
@@ -217,7 +219,7 @@ class VendorController extends Controller
         if(Auth::user()->primary_vendor == $vendor->id) {
             $users = $vendor->users()->get();
 
-/*            $expenses = Expense::where('vendor_id', $vendor->id)->pluck('check_id');
+/*          $expenses = Expense::where('vendor_id', $vendor->id)->pluck('check_id');
             $checks = Check::orderBy('date', 'desc')->get();*/
 
             $bids = Bid::all();
@@ -229,14 +231,13 @@ class VendorController extends Controller
             return view('vendors.show', compact('vendor', 'users', 'checks', 'bids', 'projects', 'balances', 'hours'));
         } else {
             $users = $vendor->users()->get();
-            $expenses = $vendor->expenses()->get();
+            $expenses = $vendor->expenses()->orderBy('expense_date', 'desc')->get();
             $splits = $vendor->expenseSplits()->with('expense')->get();
             $expenses = $expenses->merge($splits);
             //Get checks where (on Checks table) check = any of the arrayed check_id #is
-            $checks = Check::whereIn('check', $expenses->pluck('check_id'))->orderBy('date', 'desc')->get(); 
+            $checks = Check::whereIn('id', $expenses->pluck('check_id'))->orderBy('date', 'desc')->get();
             $bids = $vendor->bids()->get();
-            $projects = Project::isActive();
-            $balances = Project::notActive();
+            $balances = $vendor->projects()->distinct()->get();
             
             return view('vendors.show', compact('vendor', 'users', 'checks', 'bids', 'projects', 'balances', 'expenses'));
         }

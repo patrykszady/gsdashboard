@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Vendor;
@@ -14,10 +15,11 @@ use Carbon\Carbon;
 
 class Expense extends Model
 {
+    use SoftDeletes;
     
     protected $guarded = ['id', 'created_at', 'updated_at', 'user_id', 'another', 'done', 'split', 'update'];
 
-    protected $dates = ['expense_date', 'date'];
+    protected $dates = ['expense_date', 'date', 'deleted_at'];
 
     public function project()
     {

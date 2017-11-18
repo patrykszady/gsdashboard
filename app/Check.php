@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Vendor;
@@ -9,9 +10,10 @@ Use App\User;
 
 class Check extends Model
 {
-
+    use SoftDeletes;
+    
     protected $guarded = ['id', 'created_at', 'updated_at'];
-	protected $dates = ['date', 'expense_date'];
+	protected $dates = ['date', 'expense_date', 'deleted_at'];
     
 /*    public function getRouteKeyName()
     {

@@ -52,6 +52,10 @@ class Project extends Model
     {
         return $this->belongsToMany('App\Distribution')->withPivot('percent', 'created_by_user_id')->withTimestamps();
     }
+    public function vendors()
+    {
+        return $this->belongsToMany('App\Vendor', 'expenses');
+    }
 
     public function scopeIsActive($query){
         //whereNotIn, pass in 1,2,3,4
@@ -102,33 +106,29 @@ class Project extends Model
             return $address1 . '<br>' .  $address2;
     }
 
-    public function getBid($vendor)
+    public function getVendorBid($vendor)
     {
-        $total = $this->bids->where('vendor_id', $vendor->id)->sum('amount');        
-       
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
+        $total = $this->bids->where('vendor_id', $vendor->id)->first();
 
-        return '$' .  $total;      
-    }
-
-    public function getBidbalance($vendor)
-    {
-        
-        $total = $this->bids->where('vendor_id', $vendor->id)->sum('amount') - Expense::where('project_id', $this->id)->where('vendor_id', $vendor->id)->sum('amount');
-          
-      
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
-
-        return '$' . $total;      
+        if($total == NULL OR $total->amount == 0){
+            $total = NULL;
+        }else{
+            $total = $total->amount;
+        }
+        return $total;
     }
 
     public function getTotal($vendor)
     {
-        $total = $this->expenses->where('vendor_id', $vendor->id)->sum('amount');        
-   
-        $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
+        $total = $this->expenses->where('vendor_id', $vendor->id)->sum('amount');
+        return $total;      
+    }
 
-        return '$' .  $total;      
+    public function getBidbalance($vendor)
+    {
+        $total = $this->getVendorBid($vendor) - $this->getTotal($vendor);
+
+        return $total;      
     }
 
     public function getVendortotal($vendor)

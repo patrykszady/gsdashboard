@@ -131,7 +131,7 @@
 	<div class="col-sm-6">
 		@if(isset($expense->check_id))
 		<div class="input-group">
-			<input type="number" disabled class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+			<input type="number" disabled class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check->check : '') }}">
 			<span class="input-group-btn">
 				<a href="{{ route('checks.show', $expense->check_id) }}" class="btn btn-primary">Edit</a>
 			</span>

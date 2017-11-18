@@ -92,7 +92,7 @@ class ProjectController extends Controller
         $expenses = $expenses->merge($splits);
 
         /* $vendor_expenses = $project->expenses()->select('*', DB::raw('sum(amount) as total'))->groupBy('vendor_id')->orderBy('total', 'DESC')->get();*/
-        $vendor_expenses = $project->expenses()->groupBy('vendor_id')->get();
+        $vendor_expenses = $project->vendors()->get();
 
         $reimbursment = $expenses->where('reimbursment', 'Client');
 

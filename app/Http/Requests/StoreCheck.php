@@ -39,7 +39,12 @@ class StoreCheck extends FormRequest
     {             
       return [
         'date' => 'required|date',
-        'check' => "required|unique:checks,check," . Request::get('check_id') . "'",
+       /* 'check' => "required|unique:checks,check," . $this->check_id . "'",*/
+      /*  'check' => "required|unique:checks,check," . [$checks] . "'",*/
+        'check' => 'required', 
+                    Rule::unique('checks')->where(function ($query) {
+                        return $query->where('deleted_at', NULL);
+                    })->ignore($this->check_id)
         ];
     }
 

@@ -29,6 +29,11 @@ class Vendor extends Model
     {
         return $this->hasManyThrough('App\ExpenseSplit', 'App\Expense');
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany('App\Project', 'expenses');
+    }
  
 /*    public function checks()
     {
@@ -47,35 +52,22 @@ class Vendor extends Model
         }
         return;                                         
     }
-
-/*    public function getIdAttribute($id)
-    {
-        if(is_null($id)) {
-            return 'NONE';
-        }
-
-        return;
-    }*/
-
-        //undo the above. Easier way somehow?
+    
     public function getHomephonerraw()
     {
         $home = preg_replace('/[^0-9]/','',$this->home_phone);
         return $home;
     }
-    //COMBIME both into one function and have a line break.
-    public function getFulladdress1()
+    public function getFulladdress()
     {
-    	if ($this->address_2 === null) {
-    		return $this->address;
-    	} else {
-    		return $this->address . ', ' . $this->address_2;
-    	}
-    	
-    }
-    public function getFulladdress2()
-    {
-    	return $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+        if ($this->address_2 === null) {
+            $address1 = $this->address;
+        } else {
+            $address1 = $this->address . ', ' . $this->address_2;
+        }
+            $address2 = $this->city . ', ' . $this->state . ' ' . $this->zip_code;
+
+            return $address1 . '<br>' .  $address2;
     }
 
     public function getName()
@@ -88,8 +80,28 @@ class Vendor extends Model
 
     public function getYTD()
     {
-        $total = Expense::where('vendor_id', $this->id)->sum('amount');
+        $total = $this->expenses->sum('amount');
 
+        return $total;
+    }
+    public function getBalance()
+    {
+/*        $expenses = $this->getYTD();
+        $bids = $this->bids->sum('amount');
+        $total = $bids - $expenses;
+     */
+        $total = 0;
+        if($this->biz_type == 1){
+            foreach($this->projects()->get() as $project){
+                $balance = $project->getBidbalance($this);
+                if($balance > 0){
+                    $total += $balance;    
+                }   
+            }  
+        }else{
+            $total = 0;
+        }
+        
         return $total;
     }
 }

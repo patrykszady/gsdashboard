@@ -117,6 +117,7 @@ class ExpenseController extends Controller
 
     public function changechecks()
     {
+
         //foreach checks as check -> find expeses with check_id = check->check and change to $check-id
 
 /*        $checks = Check::all();
@@ -338,24 +339,26 @@ class ExpenseController extends Controller
     public function destroy(Expense $expense)
     {
         //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
-        $count = Expense::where('check_id', $expense->check_id)->count();
-        $count1 = Hour::where('check_id', $expense->check_id)->count();
+        $count_expenses = Expense::whereNotNull('check_id')->where('check_id', $expense->check_id)->count();
+        $count_hours = Hour::whereNotNull('check_id')->where('check_id', $expense->check_id)->count();
 
+        if($expense->check()->exists() AND $count_expenses > 1 OR $count_hours > 0) {
+            return redirect()->back()->with('error', 'Cant delete expense that had a check paid already'); 
         //destroy check entry if it's the only one
-        if($count <= 1 and $count1 == 0){
-            $check = Check::where('check', $expense->check_id)->first()->delete();
         }else {
-            return redirect()->back()->with('error', 'Cant delete expense that had a check paid already');
-        }   
-        //destry receipt assoicated with expense
+            if($expense->check()->exists()){
+                $expense->check()->forceDelete();
+            }
+        }
+        //destroy receipt assoicated with expense
         if (isset($expense->receipt)) {
             Storage::delete('receipts/' . $expense->receipt);
         }
         //destroy any splits associated with this expense
-        ExpenseSplit::where('expense_id', $expense->id)->delete();
+        $expense->expense_splits()->forceDelete();
 
         //finally...delete the expense
-        Expense::destroy($expense->id);  
+        $expense->forceDelete();  
 
         return redirect(route('expenses.index'))->with('success', 'Expense was deleted.');
     }

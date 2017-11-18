@@ -93,6 +93,14 @@ class CheckController extends Controller
      */
     public function destroy(Check $check)
     {
-        //
+        //destroy any splits associated with this expense
+        //delete expenses attached to check
+        $check->expenses()->delete();
+        //delete hours attached to check
+        $check->hours()->delete();
+        //finally...delete the check
+        $check->delete();   
+
+        return redirect(route('checks.index'))->with('success', 'Check and all associated data was deleted.');
     }
 }

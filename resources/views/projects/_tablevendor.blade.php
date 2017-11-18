@@ -11,8 +11,8 @@
 		@foreach ($projects as $project)
 			<tr>
 				<td><a href="{{ route('projects.show', $project->id)}}">{{ $project->getProjectname()  }}</td>
-				<td>{{ $project->getBid($vendor) }}</td>
 				<td>{{ $project->getTotal($vendor) }}</td>
+				<td>{{ $project->getBid($vendor) }}</td>
 				<td>{{ $project->getBidbalance($vendor)  }}</td>	
 			</tr>
 		@endforeach

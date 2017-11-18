@@ -10,9 +10,7 @@
 				<p>
 					<strong>Address:</strong>
 					<br>
-					{{$vendor->getFulladdress1()}}
-					<br>
-					{{$vendor->getFulladdress2()}}
+					{!! $vendor->getFulladdress() !!}
 				</p>
 				@if(isset($vendor->biz_phone))
 					<p>

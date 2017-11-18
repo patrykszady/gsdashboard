@@ -166,10 +166,10 @@ $(document).ready(function() {
 
 			<tr>
 				<td>
-				<a href="{{ route('vendors.show', $expense->vendor->id)}}">{{ $expense->vendor->business_name }}</a>
+				<a href="{{ route('vendors.show', $expense->id)}}">{{ $expense->business_name }}</a>
 				</td>
 
-				<td>{{ $project->getVendortotal($expense->vendor_id) }}</td>
+				<td>{{ $project->getVendortotal($expense->id) }}</td>
 				
 				{{-- <td>
 					<a href="{{ route('projects.show', $project->id) }}" class="btn btn-default">View</a>

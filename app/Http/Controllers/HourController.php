@@ -11,11 +11,11 @@ use App\Vendor;
 use App\User;
 use App\Check;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; //use Auth;
-use App\Http\Requests\StoreHour;
 use App\Http\Requests\StoreHourPayment;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreHour;
 
+use Illuminate\Http\Request;
 use URL;
 use PDF;
 use Mail;

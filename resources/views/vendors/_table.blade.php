@@ -1,9 +1,10 @@
-<table class="table table-striped table-hover" id="vendors_datatable">
+<table {{ $biz_type == 'Sub' ? "'id=vendors_datatable'" : ''}} class="table table-striped table-hover" id="vendors_datatable">
 	<thead>
 	<tr>
 		<th>Business Name</th>
 		<th>YTD Paid</th>
-		<th>Actions</th>
+		<th>Balance</th>
+{{-- 		<th>Actions</th> --}}
 	</tr>
 	</thead>
 

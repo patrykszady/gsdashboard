@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Expense;
@@ -11,7 +12,9 @@ use Carbon\Carbon;
 
 class ExpenseSplit extends Model
 {
-	protected $guarded = ['id', 'created_at', 'updated_at'];
+    use SoftDeletes;
+    
+	protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
     public function expense()
     {

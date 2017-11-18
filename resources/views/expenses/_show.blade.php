@@ -66,7 +66,11 @@
 					</tr>
 					<tr>
 						<td><strong>Check</strong></td>
-						<td><a href="{{ route('checks.show', $expense->check_id)}}">{{ $expense->check->check }}</a></td>
+						<td>
+							@if(isset($expense->check_id))
+							<a href="{{ route('checks.show', $expense->check_id) }}">{{ $expense->check->check }}</a>
+							@endif
+						</td>
 					</tr>
 					<tr>
 						<td><strong>Entered By</strong></td>

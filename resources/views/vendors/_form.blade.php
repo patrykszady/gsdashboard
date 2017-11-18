@@ -21,7 +21,6 @@
 		<select class="form-control" id="biz_type" name="biz_type">
 			<option value="1" {{ old('biz_type') == 1 ? "selected" : "" }} {{ old('biz_type') == null ? "selected" : "" }} >Sub Contractor</option>
 			<option value="2" {{ old('biz_type') == 2 ? "selected" : "" }}>Vendor</option>
-			<option value="3" {{ old('biz_type') == 3 ? "selected" : "" }}>Employee</option>
 		</select>
 	</div>
 </div>
@@ -38,5 +37,4 @@
 	<div class="col-sm-6">
 		<button type="submit" class="btn btn-success btn-block">Save</button>
 	</div>
-
 </div>
