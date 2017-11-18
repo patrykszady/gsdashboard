@@ -13,7 +13,15 @@
 <div class="form-group  {{$errors->has("amount.$key") ? ' has-error' : ''}}">
 	<label for="amount[]" class="col-sm-4 control-label">{{ $project->getProjectname() }}</label>
 	<div class="col-sm-6">
-		<input type="text" class="form-control" id="amount.$key" placeholder="1200" name="amount[]" value="{{ old("amount.$key") }}">
+		@if($project->bids()->where('vendor_id', '=', $vendor->id)->first() != NULL)
+		<input type="text" class="form-control" id="amount.$key" placeholder="1200" name="amount[]" value="{{ 
+			old("amount.$key", isset($vendor) ? $project->bids()->where('vendor_id', '=', $vendor->id)->first()->amount : '')
+		}}">
+		@else
+		<input type="text" class="form-control" id="amount.$key" placeholder="1200" name="amount[]" value="{{ 
+			old("amount.$key")
+		}}">
+		@endif
 	</div>
 	<input name="project_id[]" type="hidden" value="{{ $project->id }}">
 </div>

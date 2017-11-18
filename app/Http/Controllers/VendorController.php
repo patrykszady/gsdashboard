@@ -40,7 +40,8 @@ class VendorController extends Controller
         }
         
       /*  $projects = Project::isActive(); */
-        $projects = $vendor->projects()->distinct()->get(); //projects with balance that belong to this vendor*/
+       /* $projects = $vendor->projects()->distinct()->get(); //projects with balance that belong to this vendor*/
+        $projects = Project::all(); //projects with balance that belong to this vendor*/
         $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $expenses = Expense::where('vendor_id', $vendor->id)->get();
         $expensess = Expense::where('paid_by', 'V:' . $vendor->id)->where('check_id', NULL)->get();
@@ -118,7 +119,7 @@ class VendorController extends Controller
 
     $count = count($request->bid);
     for($i = 0; $i < $count; ++$i){
-        if($request->bid[$i] == null){
+        if($request->bid[$i] == null OR $request->bid[$i] == 0){
 
         } else {
             if(Bid::where('vendor_id', $request->vendor_id)->where('project_id', $request->project_id[$i])->count() > 0) {
@@ -130,6 +131,7 @@ class VendorController extends Controller
             $bid->project_id = $request->project_id[$i];
             $bid->amount = $request->bid[$i];
             $bid->vendor_id = $request->vendor_id;
+            $bid->created_by_user_id = Auth::id();
             $bid->save();
             }       
         }
@@ -237,7 +239,8 @@ class VendorController extends Controller
             //Get checks where (on Checks table) check = any of the arrayed check_id #is
             $checks = Check::whereIn('id', $expenses->pluck('check_id'))->orderBy('date', 'desc')->get();
             $bids = $vendor->bids()->get();
-            $balances = $vendor->projects()->distinct()->get();
+            /*$balances = $vendor->projects()->distinct()->get();*/
+            $balances = Project::all();
             
             return view('vendors.show', compact('vendor', 'users', 'checks', 'bids', 'projects', 'balances', 'expenses'));
         }

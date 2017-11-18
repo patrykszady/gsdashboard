@@ -110,7 +110,7 @@ class Project extends Model
     {
         $total = $this->bids->where('vendor_id', $vendor->id)->first();
 
-        if($total == NULL OR $total->amount == 0){
+        if($total == NULL){
             $total = NULL;
         }else{
             $total = $total->amount;

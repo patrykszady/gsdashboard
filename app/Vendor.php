@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Expense;
+use App\Project;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -93,7 +94,8 @@ class Vendor extends Model
         
         if($this->biz_type == 1){
             $total = 0;
-            foreach($this->projects()->distinct()->get() as $project){
+            /*foreach($this->projects()->distinct()->get() as $project){*/
+                foreach(Project::all() as $project){
                 $balance = $project->getBidbalance($this);
                 if($balance > 0){
                     $total += $project->getVendorBid($this) - $project->getTotal($this);   

@@ -40,12 +40,11 @@ class BidController extends Controller
         }
 
         $vendors = Vendor::all();
-     /*   if(isset($vendor->id)){
-            $projects = 
-        }*/
+
         if(isset($vendor->id)) {
             $bids = Bid::where('vendor_id', '=', $vendor->id)->pluck('project_id');
-            $projects = Project::whereNotIn('id', $bids)->get();    
+            /*$projects = Project::whereNotIn('id', $bids)->get();  */
+            $projects = Project::isActive();  
         } else {
             $projects = Project::all();
         }
@@ -57,18 +56,19 @@ class BidController extends Controller
     {
         $count = count($request->amount);
         for($i = 0; $i < $count; ++$i){
-            if($request->amount[$i] == null){
-
+            if($request->amount[$i] != null){
+                if(Bid::where('vendor_id', $request->vendor_id)->where('project_id', $request->project_id[$i])->count() > 0) {
+                $bid = Bid::findOrFail(Bid::where('vendor_id', $request->vendor_id)->where('project_id', $request->project_id[$i])->first()->id);
+                $bid->amount = $request->amount[$i];
+                $bid->update();
             } else {
-
-            $bid = new Bid;
-            $bid->amount = $request->amount[$i];
-            $bid->project_id = $request->project_id[$i];
-            $bid->vendor_id = $request->vendor_id;
-            $bid->created_by_user_id = Auth::id();
-
-            $bid->save();
-
+                $bid = new Bid;
+                $bid->project_id = $request->project_id[$i];
+                $bid->amount = $request->amount[$i];
+                $bid->vendor_id = $request->vendor_id;
+                $bid->created_by_user_id = Auth::id();
+                $bid->save();
+                }    
             }
         }
 
