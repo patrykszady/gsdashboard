@@ -53,7 +53,7 @@ class VendorController extends Controller
     public function vendorStorePayment(StoreVendorPayment $request)
     {
     //create check
-    if($request->has('check_id')) {
+    if($request->check_id != null) {
         $check = new Check;
         $check->check = $request->check_id;
         $check->date = Carbon::parse($request->date)->toDateTimeString(); //why not just $request->date

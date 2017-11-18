@@ -4,6 +4,7 @@
 @foreach ($projects as $key => $project)
 @if($project->getBidbalance($vendor) > 0)
 <?php $key = $key-1; ?>
+
 <div class="vendor_accounts panel panel-default">
 <div class="panel-heading">{{$project->getProjectname()}}</div>
 <div class="form-group counts">
@@ -32,6 +33,7 @@
 </div>
 <ul class="list-group">
 <h5 class="list-group-item-text" style="padding-left:10px">Past payments for project</h5>
+
 @foreach($project->expenses()->where('vendor_id', $vendor->id)->get() as $expense)
   <li class="list-group-item">
     {{money($expense->amount)}} on 
@@ -40,6 +42,7 @@
     with Check <a href="{{ route('checks.show', $expense->check->id)}}">{{ $expense->check->check }}</a>
     @endif
   </li>
+  
 @endforeach
 </ul>
   <input name="project_id[]" id="project_id.$key" type="hidden" value="{{$project->id}}">
