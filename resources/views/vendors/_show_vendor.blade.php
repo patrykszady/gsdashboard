@@ -51,7 +51,7 @@ $(document).ready(function() {
 
 	<div class="col-md-8">
 		<div class="panel panel-default">
-			<div class="panel-heading">Contacts <a href="{{ route('users.create', $vendor->id) }}" class="btn btn-default">Add Another</a></div>
+			<div class="panel-heading">Contacts <a href="{{url('users/create', $vendor->id) }}" class="btn btn-default">Add Another</a></div>
 			@include('users._table')
 		</div>
 	</div>
