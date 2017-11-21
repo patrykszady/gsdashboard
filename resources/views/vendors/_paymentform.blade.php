@@ -1,11 +1,24 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(function() {
+  //onload
+    $('.row_show').show();
+    $('[class*=" row_hide_"]').hide();
+
+    $('.project_id_show').on('click', '.addproject', function() {
+      var newId = $('select[name=project_id_show_select]').val();
+    $('.row_hide_' + newId).show();
+    });
+  });
+});
+</script>
+
 <input name="vendor_id" type="hidden" value="{{ $vendor->id }}">
-
+<div class="vendor_accounts">
 @foreach ($projects as $key => $project)
-@if($project->getBidbalance($vendor) > 0)
-<?php $key = $key-1; ?>
+<div class="panel panel-default {{$project->getBidbalance($vendor) > 0 ? 'row_show' : old("amount.$key") == !null ? 'row_show' : old("bid.$key", $project->bids->where('vendor_id', $vendor->id)->sum('amount')) != $project->bids->where('vendor_id', $vendor->id)->sum('amount') ? 'row_show' : "row_hide_$project->id"}}">
 
-<div class="vendor_accounts panel panel-default sections">
+
 <div class="panel-heading">{{$project->getProjectname()}}</div>
 <div class="form-group counts">
   <br>
@@ -17,7 +30,7 @@
     </div>
   </div>
   <div class="col-sm-4">
-    <div class="input-group {{ $errors->has("amount.$key")  ? ' has-error' : '' }}">
+    <div class="input-group {{ $errors->has("amount.$key")  ? 'has-error' : '' }}">
     <div class="input-group-addon">Payment</div>
       <input type="text" class="form-control payment" id="$amount.$key" name="amount[]" value="{{ old("amount.$key") }}">
     </div>
@@ -52,28 +65,37 @@
 </ul>
   <input name="project_id[]" id="project_id.$key" type="hidden" value="{{$project->id}}">
 </div>
-@endif
 
 @endforeach
-
-{{-- <div class="panel panel-default">
+</div>
+<hr>
+<div class="panel panel-default project_id_show">
   <div class="panel-heading">Pay another project</div>
-  <ul class="list-group">
-    <li class="list-group-item">
-      <select class="form-control" id="project_id_show" name="project_id_show">
-      @foreach ($projects as $project)
-        <option value="{{$project->id}}">
-          {{ $project->getProjectname() }}
-        </option>
-      @endforeach
-      </select>
+  <br>
+  <div class="form-group {{ $errors->has('vendor_id') ? ' has-error' : ''}}">
+    {{-- <label for="vendor_id" class="col-sm-4 control-label">Vendor</label> --}}
+    <div class="col-sm-10 col-sm-offset-1">
+      <div class="input-group">
+        <select class="form-control project_id_show" id="project_id_show" name="project_id_show_select">
+          @foreach ($projects as $project)
+            <option value="{{$project->id}}">
+              {{ $project->getProjectname() }}
+            </option>
+          @endforeach
+        </select>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-success btn-block addproject">Pay project</button>
+        </span>
+      </div>
+    </div>  
+  </div>
+</div>
 
-      <button type="button" class="btn btn-success btn-block addsection">Pay project</button>
-    </li>
-  </ul>
-</div> --}}
+
+
 
 @if(!$expensess->isEmpty())
+<hr>
 <div class="panel panel-default">
   <div class="panel-heading">Expenses {{$vendor->business_name}} paid for</div>
   @foreach ($expensess as $expense)
@@ -99,6 +121,7 @@
 @endif
 
 @if(!$expensesss->isEmpty())
+<hr>
 <div class="panel panel-default">
   <div class="panel-heading">Expenses GS Construction Paid For</div>
     @foreach ($expensesss as $expense)

@@ -5,11 +5,8 @@
 		<th>Cell Phone</th>
 		<th>Actions</th>
 	</thead>
-
-	<tbody>
-			
+	<tbody>	
 		@foreach ($users as $user)
-
 			<tr>
 				<td><a href="{{ route('users.show', $user->id)}}">{{ $user->getFullName() }}</a></td>
 				<td>{{ $user->email }}</td>
@@ -42,8 +39,6 @@
 					</div>
 				</td>
 			</tr>
-
 			@endforeach
-
 	</tbody>
 </table>

@@ -8,8 +8,6 @@
 	</div>
 </div>
 
-
-
 <div class="form-group {{ $errors->has("project_id.$i")  ? ' has-error' : '' }}">
 	<label for="project_id" class="col-sm-4 control-label">Project</label>
 	<div class="col-sm-8">

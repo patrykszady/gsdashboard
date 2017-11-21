@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-<style type="text/css"></style>
-
 <div class="col-md-7" style="position: sticky; top: 10px;">
 	@include('expenses._show', compact($expensesplit))
 </div>
@@ -159,6 +156,8 @@ function calculateSum() {
 }
 
 </script>
-<script src="/js/app.js"></script>
+@push('script')
+	<script src="/js/app.js"></script>
+@endpush
 
 @endsection

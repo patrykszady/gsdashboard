@@ -52,7 +52,6 @@ class VendorController extends Controller
 
     public function vendorStorePayment(StoreVendorPayment $request)
     {
-        dd($request->all());
     //create check
     if($request->check_id != null) {
         $check = new Check;
@@ -70,7 +69,6 @@ class VendorController extends Controller
         $expense = Expense::findOrFail($request->expense[$i]);
         $expense->check_id = $check->id;
         $expense->created_by_user_id = Auth::id();
-
         $expense->save();
         }       
     }
@@ -190,6 +188,7 @@ class VendorController extends Controller
             $vendor->users()->attach($request->user_id);
 
             $user = User::findOrFail($request->user_id);
+            $user->created_by_user_id = Auth::id();
             $user->primary_vendor = $vendor->id;
             $user->save();
   
@@ -206,6 +205,7 @@ class VendorController extends Controller
             
             $vendor->users()->attach($user->id);
             $user->primary_vendor = $vendor->id;
+            $user->created_by_user_id = Auth::id();
             $user->save();
         //Create App/User WITHOUT the new vendor_id
         } else {

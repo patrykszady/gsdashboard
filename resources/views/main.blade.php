@@ -18,5 +18,6 @@
             @include('partials.messages')
             @yield('content')
         </div>
+        @stack('script')
     </body>
 </html>
