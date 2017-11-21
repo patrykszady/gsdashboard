@@ -31,7 +31,7 @@ class VendorController extends Controller
     }
 
     public function vendorPayment(Vendor $vendor)
-    {
+    {   
         //Doesn't put a new 'takemeback' into the Session If url is this ('users.edit')
         if(URL::previous() == URL::current()) {
         //save last URL so when form is submitted i can be taken back ("intended")...eventually ends up in a Middleware        
@@ -52,6 +52,7 @@ class VendorController extends Controller
 
     public function vendorStorePayment(StoreVendorPayment $request)
     {
+        dd($request->all());
     //create check
     if($request->check_id != null) {
         $check = new Check;
@@ -249,12 +250,13 @@ class VendorController extends Controller
 
     public function edit(Vendor $vendor)
     {
-        //
+        return view('vendors.edit', compact('vendor'));
     }
 
     public function update(StoreVendor $request, Vendor $vendor)
     {
-        //
+        $vendor->update($request->all());
+        return redirect(route('vendors.show', compact('vendor')));
     }
 
     public function destroy(Vendor $vendor)

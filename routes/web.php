@@ -42,8 +42,8 @@ Route::get('hours/timesheets/print', ['uses' => 'HourController@printTimesheets'
 Route::get('carbon', 'ExpenseController@carbon');*/
 
 Route::get('clients/createcontact', 'ClientController@createcontact');
-
-Route::get('expenses/input', 'ExpenseController@input');
+Route::get('expenses/anyData', ['as' => 'expenses.anyData', 'uses' => 'ExpenseController@anyData']);
+Route::get('expenses/input', ['uses' => 'ExpenseController@input', 'as' => 'expenses.input']);
 Route::post('expenses/input', ['uses' => 'ExpenseController@inputStore', 'as' => 'expenses.inputStore']);
 Route::resource('expenses', 'ExpenseController');
 Route::get('expenses/receipts/{receipt}', ['uses' => 'ExpenseController@receipt', 'as' => 'expenses.receipt']);

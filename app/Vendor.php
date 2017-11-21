@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     protected $dates = ['date', 'expense_date'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function expenses()
     {

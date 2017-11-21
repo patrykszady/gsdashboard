@@ -14,21 +14,23 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="{{ Request::url() == '/projects' ? "active" : '' }}"><a href="{{ route('projects.index') }}">Projects</a></li>
-        <li class="{{ Request::url() == '/expenses' ? "active" : '' }}"><a href="{{ route('expenses.index') }}">Expenses</a></li>
-        <li class="{{ Request::url() == '/clients' ? "active" : '' }}"><a href="{{ route('clients.index') }}">Clients</a></li>
-        <li class="{{ Request::url() == '/vendors' ? "active" : '' }}"><a href="{{ route('vendors.index') }}">Vendors</a></li>
-        <li class="{{ Request::url() == '/checks' ? "active" : '' }}"><a href="{{ route('checks.index') }}">Checks</a></li>
-        <li class="dropdown">
+        <li class="{{ Request::segment(1) === 'projects' ? 'active' : null }}"><a href="{{ route('projects.index') }}">Projects</a></li>
+        <li class="dropdown {{ Request::segment(1) === 'expenses' ? 'active' : null }}">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Expenses <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ route('expenses.create') }}">New Expense</a></li>
+            <li><a href="{{ route('expenses.index') }}">Show Expenses</a></li>
+            <li><a href="{{ route('expenses.input') }}">Auto Expenses</a></li>
+          </ul>
+        </li>
+        <li class="{{ Request::segment(1) === 'clients' ? 'active' : null }}"><a href="{{ route('clients.index') }}">Clients</a></li>
+        <li class="{{ Request::segment(1) === 'vendors' ? 'active' : null }}"><a href="{{ route('vendors.index') }}">Vendors</a></li>
+        <li class="{{ Request::segment(1) === 'checks' ? 'active' : null }}"><a href="{{ route('checks.index') }}">Checks</a></li>
+        <li class="dropdown {{ Request::segment(1) === 'hours' ? 'active' : null }}">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Timesheets <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="{{ route('hours.create') }}">New Timesheet</a></li>
-            <li><a href="#">Pay Employee</a></li>
             <li><a href="{{ route('distributions.index') }}">Distributions</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
           </ul>
         </li>
       </ul>

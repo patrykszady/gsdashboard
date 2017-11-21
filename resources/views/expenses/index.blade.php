@@ -42,3 +42,21 @@ $(document).ready(function() {
 </div>
 
 @endsection
+{{-- @push('scripts')
+<script>
+$(function() {
+    $('#expenses_datatable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('expenses.anyData') !!}',
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'expense_date', name: 'expense_date' },
+            { data: 'project_id', name: 'project_id' },
+            { data: 'vendor_id', name: 'vendor_id' },
+            { data: 'amount', name: 'amount' }
+        ]
+    });
+});
+</script>
+@endpush --}}

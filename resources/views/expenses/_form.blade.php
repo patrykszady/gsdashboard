@@ -136,8 +136,9 @@
 				<a href="{{ route('checks.show', $expense->check_id) }}" class="btn btn-primary">Edit</a>
 			</span>
 		</div>
+		<input type="hidden" name="check" value="{{$expense->check->check}}">
 		@else
-		<input type="number" class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check_id : '') }}">
+		<input type="number" class="form-control" id="check_id" placeholder="1020" name="check_id" value="{{ old('check_id', isset($expense) ? $expense->check->check : '') }}">
 		@endif
 	</div>
 </div>

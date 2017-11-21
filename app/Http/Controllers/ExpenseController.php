@@ -21,7 +21,7 @@ use Image;
 use Storage;
 use Session;
 use Response;
-use Datatables;
+use Yajra\Datatables\Datatables;
 
 use Carbon\Carbon;
 
@@ -79,6 +79,11 @@ class ExpenseController extends Controller
         $expenses = Expense::expenseWithSplits();
         
         return view('expenses.index', compact('expenses', 'distributions', 'expense_input'));
+    }
+
+    public function anyData()
+    {
+        return Datatables::of(Expense::query())->make(true);
     }
 
     public function input()
@@ -272,7 +277,7 @@ class ExpenseController extends Controller
     {
         $check = Check::where('check', $request->check_id)->first();
         //no check entered/check is empty AND $expense->check_id is set before update
-        if(is_null($request->check_id) AND isset($expense->check_id)) {
+        if(is_null($request->check) AND isset($expense->check_id)) {
             //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
             if(Expense::where('check_id', $expense->check_id)->count() <= 1) {
                 $check = $check->delete();
@@ -313,7 +318,7 @@ class ExpenseController extends Controller
             $expense->project_id = null;
         }
         $expense->save();
-        $expense->update($request->except(['receipt', 'receipt_img', 'check_id', 'expense_id', 'project_id', 'distribution_id']));
+        $expense->update($request->except(['receipt', 'receipt_img', 'check_id', 'check', 'expense_id', 'project_id', 'distribution_id']));
 
         $expense->save();
 

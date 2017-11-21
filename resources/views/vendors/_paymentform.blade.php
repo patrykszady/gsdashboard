@@ -5,7 +5,7 @@
 @if($project->getBidbalance($vendor) > 0)
 <?php $key = $key-1; ?>
 
-<div class="vendor_accounts panel panel-default">
+<div class="vendor_accounts panel panel-default sections">
 <div class="panel-heading">{{$project->getProjectname()}}</div>
 <div class="form-group counts">
   <br>
@@ -32,7 +32,12 @@
 </div>
 </div>
 <ul class="list-group">
+
+@if($project->expenses()->where('vendor_id', $vendor->id)->count() > 0)
 <h5 class="list-group-item-text" style="padding-left:10px">Past payments for project</h5>
+@else
+<h5 class="list-group-item-text" style="padding-left:10px">No past payments for project</h5>
+@endif
 
 @foreach($project->expenses()->where('vendor_id', $vendor->id)->get() as $expense)
   <li class="list-group-item">
@@ -48,39 +53,54 @@
   <input name="project_id[]" id="project_id.$key" type="hidden" value="{{$project->id}}">
 </div>
 @endif
+
 @endforeach
 
-<div class="panel panel-default">
-<!-- Default panel contents -->
-  <div class="panel-heading">Expenses {{$vendor->business_name}} paid for</div>
-
-<!-- List group -->
-@foreach ($expensess as $expense)
+{{-- <div class="panel panel-default">
+  <div class="panel-heading">Pay another project</div>
   <ul class="list-group">
     <li class="list-group-item">
-    <input class="box" type="checkbox" value="{{$expense->id}}" name="expense[]" rel="{{$expense->amount}}"
-    {{ !empty(old('expense')) && (in_array($expense->id, old('expense'))) ? 'checked' : '' }}
-    >&nbsp;&nbsp;&nbsp;&nbsp;
+      <select class="form-control" id="project_id_show" name="project_id_show">
+      @foreach ($projects as $project)
+        <option value="{{$project->id}}">
+          {{ $project->getProjectname() }}
+        </option>
+      @endforeach
+      </select>
 
-    <strong>{{ money($expense->amount) }} </strong> 
-    
-    {{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
-    @if (isset($expense->project_id))
-      <a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>
-    @else
-      <a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a>
-    @endif
+      <button type="button" class="btn btn-success btn-block addsection">Pay project</button>
     </li>
   </ul>
-@endforeach
+</div> --}}
 
-</div>
-
+@if(!$expensess->isEmpty())
 <div class="panel panel-default">
-<!-- Default panel contents -->
-  <div class="panel-heading">Expenses GS Construction Paid For</div>
+  <div class="panel-heading">Expenses {{$vendor->business_name}} paid for</div>
+  @foreach ($expensess as $expense)
+    @include('vendors._paymentform_modal')
+    <ul class="list-group">
+      <li class="list-group-item">
+      <input class="box" type="checkbox" value="{{$expense->id}}" name="expense[]" rel="{{$expense->amount}}"
+      {{ !empty(old('expense')) && (in_array($expense->id, old('expense'))) ? 'checked' : '' }}
+      >&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <!-- List group -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-md-{{$expense->id}}"><strong>-{{ money($expense->amount) }} </strong></button> 
+      
+      {{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
+      @if (isset($expense->project_id))
+        <a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>
+      @else
+        <a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a>
+      @endif
+      </li>
+    </ul>
+  @endforeach
+</div>
+@endif
+
+@if(!$expensesss->isEmpty())
+<div class="panel panel-default">
+  <div class="panel-heading">Expenses GS Construction Paid For</div>
     @foreach ($expensesss as $expense)
       @include('vendors._paymentform_modal')
 
@@ -103,8 +123,8 @@
       </ul>
 
     @endforeach
-
 </div>
+@endif
 
     <input type="hidden" id="checkTotal" name="check" value="">
 

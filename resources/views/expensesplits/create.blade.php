@@ -24,24 +24,24 @@
 		@endif
 
 		@for($i = 0; $i < $count; ++$i)
-			  	<div class="section">
-					<div class="col-md-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-						    	<h3 class="panel-title">Split</h3>
-						  	</div>
-							<div class="panel-body">
-				    			<fieldset>
-				       				@include('expensesplits._form')
-				    			</fieldset>
-			 				</div>
-			 				<div class="panel-footer">
-								<a href="" class='btn btn-primary addsection'>Add Split</a>
-								<a href="" class='btn btn-default remove'>Remove Split</a>
-							</div>
+		  	<div class="section">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+					    	<h3 class="panel-title">Split</h3>
+					  	</div>
+						<div class="panel-body">
+			    			<fieldset>
+			       				@include('expensesplits._form')
+			    			</fieldset>
+		 				</div>
+		 				<div class="panel-footer">
+							<a href="" class='btn btn-primary addsection'>Add Split</a>
+							<a href="" class='btn btn-default remove'>Remove Split</a>
 						</div>
 					</div>
 				</div>
+			</div>
 		@endfor
 	</div>
 </div>

@@ -4,7 +4,6 @@
 
 @section('content')
 
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 $(function() {
