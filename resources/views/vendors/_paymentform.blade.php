@@ -1,18 +1,3 @@
-<script type="text/javascript">
-$(document).ready(function(){
-  $(function() {
-  //onload
-    $('.row_show').show();
-    $('[class*=" row_hide_"]').hide();
-
-    $('.project_id_show').on('click', '.addproject', function() {
-      var newId = $('select[name=project_id_show_select]').val();
-    $('.row_hide_' + newId).show();
-    });
-  });
-});
-</script>
-
 <input name="vendor_id" type="hidden" value="{{ $vendor->id }}">
 <div class="vendor_accounts">
 @foreach ($projects as $key => $project)
@@ -235,6 +220,20 @@ $(document).ready(function(){
 </div>
 
 <script type="text/javascript">
+
+$(document).ready(function(){
+  $(function() {
+  //onload
+    $('.row_show').show();
+    $('[class*=" row_hide_"]').hide();
+
+    $('.project_id_show').on('click', '.addproject', function() {
+      var newId = $('select[name=project_id_show_select]').val();
+    $('.row_hide_' + newId).show();
+    });
+  });
+});
+
 
 $(document).on("keyup", ".vendor_accounts input", function() {
   $(this).trigger("recalc");

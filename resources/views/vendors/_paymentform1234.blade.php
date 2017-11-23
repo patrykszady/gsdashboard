@@ -34,6 +34,7 @@
   <div class="input-group-addon">Balance</div>
     <input type="text" disabled class="form-control balance" id="balance.$key" placeholder="1200" name="balance[]" value="{{$project->bids->where('vendor_id', $vendor->id)->sum('amount') - $project->expenses->where('vendor_id', $vendor->id)->sum('amount') }}">
   </div>
+  
   <input type="hidden" class="form-control current_balance" value="{{$project->expenses->where('vendor_id', $vendor->id)->sum('amount')}}">
   </div>
 

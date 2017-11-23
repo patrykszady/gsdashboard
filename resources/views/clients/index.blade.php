@@ -3,9 +3,7 @@
 @section('title', 'Clients')
 
 @section('content')
-
 <script type="text/javascript">
-
 $(document).ready(function() {
     var dataTable = $('#clients_datatable').DataTable( {                                                 
         "info":     false,

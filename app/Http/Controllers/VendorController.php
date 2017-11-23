@@ -103,7 +103,11 @@ class VendorController extends Controller
         } else {
         $expense = new Expense;
         $expense->project_id = $request->project_id[$i];
-        $expense->check_id = $check->id;
+        if($request->check_id == null){
+            $expense->check_id = null;
+        } else {
+            $expense->check_id = $check->id;
+        }
         $expense->created_by_user_id = Auth::id();
         $expense->amount = $request->amount[$i];
         $expense->expense_date = $request->expense_date;

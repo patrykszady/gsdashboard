@@ -90,17 +90,16 @@
 		</div>
 	</div>
 
-
 @if(isset($expense->receipt))
-
 	<div class="col-md-7">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 		    	<h3 class="panel-title">Receipt</h3>
 		  	</div>
+		  	<div class="panel-body">
 		  		@include('expenses._receipt')
+		  	</div>
 		</div>
 	</div>
-
 @endif
-</div> {{-- ROW DIV --}}
+</div>

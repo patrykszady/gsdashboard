@@ -33,6 +33,23 @@
             <li><a href="{{ route('distributions.index') }}">Distributions</a></li>
           </ul>
         </li>
+        <li class="dropdown {{ Request::segment(1) === 'hours' ? 'active' : null }}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Company <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ route('receipts.create') }}">New Auto Receipt</a></li>
+            <li><a href="{{ route('distributions.index') }}">Distributions</a></li>
+          </ul>
+        </li>
+        {{-- ADMIN ONLY --}}
+        @if(Auth::id() == 1)
+        <li class="dropdown {{ Request::segment(1) === 'hours' ? 'active' : null }}">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ route('hours.create') }}">New Timesheet</a></li>
+            <li><a href="{{ route('distributions.index') }}">Distributions</a></li>
+          </ul>
+        </li>
+        @endif
       </ul>
      {{--  <form class="navbar-form navbar-left">
         <div class="form-group">

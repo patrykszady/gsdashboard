@@ -56,7 +56,6 @@ class ReceiptController extends Controller
         $connection = $server->authenticate('patryk@gs.construction', 'Pilka123#');
 
         foreach($receipts as $receipt){
-
         $mailbox = $connection->getMailbox($receipt->mailbox);
 
         //get emails only FROM the address (homedepotreceipt@homedepot.com)
@@ -65,40 +64,48 @@ class ReceiptController extends Controller
         $messages = $mailbox->getMessages($search);
 
             foreach($messages as $message){
-            
             //receipt_html
             $receipt_start = $receipt->receipt_start; //evenrything after last character
             $receipt_end = $receipt->receipt_end; //everything before first character
                 //CHECK IF EMAIL IS HTML OR PLAIN TEXT
                 if($message->getSubtype() == 'HTML'){
                     $string = $message->keepUnseen()->getBodyHtml();
+                    $message_type = 'HTML';
                 } elseif($message->getSubtype() == 'PLAIN') {
-                    $string = $message->keepUnseen()->getBodyText(); 
+                    $string = $message->keepUnseen()->getBodyText();
+                    $message_type = 'PLAIN';
                 } else {
                     foreach($message->getParts() as $part) {
                    
                         if($part->getSubtype() == 'HTML'){
                             $string = $message->keepUnseen()->getBodyHtml();
+                            $message_type = 'HTML';
                         } elseif($part->getSubtype() == 'PLAIN') {
                             $string = $message->keepUnseen()->getBodyText(); 
+                            $message_type = 'PLAIN';
                         } else {
                             
                         }
                     }
                 }
+              /*       print_r( htmlspecialchars($string));  <--SHOW HTML ALL TEXT
+                dd();*/
                     $receipt_start = strpos($string, $receipt_start);
+
                     $receipt_end = strpos($string, $receipt_end, $receipt_start);
+
                     $receipt_position = $receipt_end - $receipt_start;
                     $receipt_html_main = substr($string, $receipt_start, $receipt_position);
-             
+                 /*     print_r( htmlspecialchars($receipt_html_main));  
+                dd();*/
             $amount_start = $receipt->amount_start;  /*...returns =    "TOTAL          -$"*/
             $amount_end = $receipt->amount_end;
-             
+            
             $receipt_html = str_replace(' ','',$receipt_html_main);
-           /* echo $receipt_html;*/ // <- This will show us amount start and end
+            /*echo $receipt_html;*/ // <- This will show us amount start and end
             
             $amount_start_position = strpos($receipt_html, $amount_start); 
-
+           /* dd($amount_start_position);*/
                 if($amount_start_position == false) {
                    continue;
                 } else {
@@ -107,7 +114,7 @@ class ReceiptController extends Controller
 
                     $amount_length = $amount_end_position - $amount_start_position;
                     $amount_string = preg_replace('/[^0-9.]*/', '', substr($receipt_html, $amount_start_position, $amount_length));
-
+                    /*dd($amount_string);*/
                     if($receipt->po == 1){ // 1 = yes 2 = no
                         $po_start = $receipt->po_start;
                         $po_end = $receipt->po_end;
@@ -124,18 +131,13 @@ class ReceiptController extends Controller
                     } else {
                         $po_string = NULL; 
                     }
-
                     $expense = new Expense;
                     //if receipt is a return
                     if($receipt->receipt_type == 2) { 
                         $expense->amount = '-' . $amount_string;
                     } else {
-                    $expense->amount = $amount_string;  
+                        $expense->amount = $amount_string;  
                     }  
-
-
-           
-
                     $expense->receipt_html = $receipt_html_main;
                     $expense->reimbursment = 0;
                     $expense->project_id = $receipt->project_id; //If PO matches a project, use that project
@@ -151,7 +153,7 @@ class ReceiptController extends Controller
                 $attachments = $message->getAttachments();
                 if(empty($attachments)){
                     //make PDF from HTML
-                    $pdf = PDF::loadView('receipts.makePdfReceipt', compact('string'))
+                    $pdf = PDF::loadView('receipts.makePdfReceipt', compact('string', 'message_type'))
                             ->setPaper('a4'); //->setOrientation('portrait')
                     $name = date('Y-m-d-H-i-s') . '-' . $expense->id . '.pdf';
                     
