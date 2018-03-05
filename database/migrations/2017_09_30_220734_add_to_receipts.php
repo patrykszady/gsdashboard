@@ -29,6 +29,7 @@ class AddToReceipts extends Migration
     {
         Schema::table('receipts', function($table) {
             $table->dropColumn('receipt_width');
+            $table->dropColumn('receipt_filename');
         });
     }
 }

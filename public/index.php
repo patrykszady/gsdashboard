@@ -1,5 +1,6 @@
 <?php
-
+//JUST FOR CREATING PDF OUT OF IMAGES...need to change 
+ini_set('max_execution_time', 30000);
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

@@ -33,7 +33,11 @@
 		<strong>{{  money($expense->amount)}} </strong> 
 		{{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
 		@if (isset($expense->project_id))
+			@if ($expense->project_id == 0)
+			<a href="{{ route('expenses.show', $expense->id)}}">Expense Split</a>
+			@else
 			<a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>
+			@endif
 		@else
 			<a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a>
 		@endif

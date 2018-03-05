@@ -9,7 +9,7 @@
 <div class="row">
 	<div class="col-lg-11">
 		<div class="panel panel-default">
-			<div class="panel-heading"></div>
+			<div class="panel-heading">Input Automated Receipts</div>
 	<table id="expenses" class="table table-striped table-hover">
 		<thead>
 			<tr>

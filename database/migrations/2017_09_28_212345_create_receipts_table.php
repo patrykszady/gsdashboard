@@ -16,11 +16,11 @@ class CreateReceiptsTable extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('mailbox');
-            $table->string('from_address');
+            $table->string('from_address'); //changed to nullable in add_to_receipts_2
             $table->integer('created_by_user_id');
             $table->integer('vendor_id');
-            $table->integer('project_id')->nullable();
-            $table->integer('distribution_id')->nullable();
+            $table->integer('project_id')->nullable(); //remove/move to seperate table (manytomany?)
+            $table->integer('distribution_id')->nullable(); //remove/move to seperate table (manytomany?)
             $table->string('receipt_start')->nullable();
             $table->string('receipt_end')->nullable();
             $table->integer('po'); //yer or no

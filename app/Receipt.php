@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Receipt extends Model
 {
     protected $guarded = ['id'];
-}
 
-/*
-HomeDepotReceipt@homedepot.com
-INBOX/Home Depot Test
-<pre style="width:380px">
-XXXXXXXXXXXX
-TOTAL$
-</span></div>
-eReceipt.pdf
-*/
+    public function receiptAccounts()
+    {
+        return $this->hasMany('App\ReceiptAccount');
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo('App\Vendor');
+    }
+}

@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'New Receipt Account')
+@section('title', 'New Automatic Receipt')
 
 @section('content')
 
@@ -19,7 +19,7 @@
 					<div class="form-group">
 						<div class="col-sm-4"></div>
 						<div class="col-sm-6">
-							<button type="submit" class="btn btn-success btn-block">Add Account</button>
+							<button type="submit" class="btn btn-success btn-block">Add Auto Account</button>
 						</div>	
 					</div>
 				</form>

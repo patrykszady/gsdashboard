@@ -36,6 +36,11 @@ class Vendor extends Model
     {
         return $this->belongsToMany('App\Project', 'expenses');
     }
+
+    public function receipts()
+    {
+        return $this->hasMany('App\Receipt');
+    }
  
 /*    public function checks()
     {

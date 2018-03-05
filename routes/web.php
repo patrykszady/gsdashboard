@@ -90,6 +90,8 @@ Route::resource('clientpayments', 'ClientPaymentController');
 Route::resource('clients', 'ClientController');
 
 Route::resource('users', 'UserController');
+
+Route::resource('receiptaccounts', 'ReceiptAccountController');
 //Send $client to users/create view
 Route::get('users/create/{id}', 'UserController@createassociate');
 
