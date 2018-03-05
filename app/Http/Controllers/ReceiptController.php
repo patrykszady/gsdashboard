@@ -60,7 +60,7 @@ class ReceiptController extends Controller
             //$mailbox = $connection->getMailbox($receipt->mailbox);
 /*                dd(Receipt::where('id', $receipt->receipt_id)->first());*/
             $receipt = $receipt_account->receipt;
-            $mailbox = $connection->getMailbox('receipttest');
+            $mailbox = $connection->getMailbox($company_email->mailbox);
             
             $search = new SearchExpression();
                 if($receipt->from_type == 1){
@@ -179,7 +179,7 @@ class ReceiptController extends Controller
                     $expense->reimbursment = 0;
                     $expense->project_id = $receipt_account->project_id; //If PO matches a project, use that project
                     $expense->distribution_id = $receipt_account->receipt_id;
-                    $expense->created_by_user_id = 43;//"automated"
+                    $expense->created_by_user_id = 58;//"automated"
                     $expense->expense_date = $message->getDate()->format('m/d/y');
                     $expense->vendor_id = Vendor::findOrFail($receipt->vendor_id)->id; //Vendor_id of vendor being Queued 
                     $expense->note = $po_string;
@@ -223,7 +223,7 @@ class ReceiptController extends Controller
                             }
                         }
                     }
-                        $mailbox_1 = $connection->getMailbox('receipttest/testsaved');
+                        $mailbox_1 = $connection->getMailbox($company_email->mailbox . '/Saved');
                         $message->move($mailbox_1);
                         $mailbox->expunge();
                         

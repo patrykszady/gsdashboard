@@ -33,7 +33,8 @@ class ReceiptAccountController extends Controller
      */
     public function create()
     {
-        $receipts_grouped = Receipt::groupBy('vendor_id')->get();
+        $receipt_account_avaliable = Receipt::avaliableaccounts()->groupBy('vendor_id')->get();
+        $receipt_account_active = Receipt::activeaccounts()->groupBy('vendor_id')->get();
         $receipts = Receipt::all();
 /*        $receipt_accounts = ReceiptAccount::employees()->groupBy('account_id')->get();*/
 /*        dd($receipt_accounts);*/
@@ -42,7 +43,7 @@ class ReceiptAccountController extends Controller
         $distributions = Distribution::all();
     
         
-        return view('receiptaccounts.create', compact('receipts', 'company_emails', 'projects', 'distributions', 'receipt_accounts', 'receipts_grouped'));
+        return view('receiptaccounts.create', compact('receipts', 'company_emails', 'projects', 'distributions', 'receipt_accounts', 'receipts_grouped', 'receipt_account_active', 'receipt_account_avaliable'));
     }
 
     /**
