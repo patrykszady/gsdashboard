@@ -167,18 +167,34 @@ class ReceiptController extends Controller
                         $po_string = NULL; 
                     }
 
-                    $expense = new Expense;
                     //if receipt is a return
                     if($receipt->receipt_type == 2) { 
-                        $expense->amount = '-' . $amount_string;
+                        $amount_string = '-' . $amount_string;
                     } else {
-                        $expense->amount = $amount_string;  
+                        $amount_string = $amount_string;  
                     }
 
+                    //Check if expense already exists
+                    $duplicate = Expense::
+                        where('vendor_id', Vendor::findOrFail($receipt->vendor_id)->id)->
+                        where('amount', $amount_string)->
+                        where('expense_date', $message->getDate()->format('Y-m-d'))->first();
+                    if(isset($duplicate)) {
+                    //move email to Saved without creating new expense
+                        $mailbox_1 = $connection->getMailbox($company_email->mailbox . '/Saved');
+                        $message->move($mailbox_1);
+                        $mailbox->expunge();
+
+                        continue;
+                    } else {
+                        //CREATE NEW Expense
+                    
+                    $expense = new Expense;
+                    $expense->amount = $amount_string;
                     $expense->receipt_html = $receipt_html_main;
                     $expense->reimbursment = 0;
                     $expense->project_id = $receipt_account->project_id; //If PO matches a project, use that project
-                    $expense->distribution_id = $receipt_account->receipt_id;
+                    $expense->distribution_id = $receipt_account->distribution_id;
                     $expense->created_by_user_id = 58;//"automated"
                     $expense->expense_date = $message->getDate()->format('m/d/y');
                     $expense->vendor_id = Vendor::findOrFail($receipt->vendor_id)->id; //Vendor_id of vendor being Queued 
@@ -228,7 +244,8 @@ class ReceiptController extends Controller
                         $mailbox->expunge();
                         
                         $expense->save();
-                    }  //save expense!!! else                                         
+                    }  //save expense!!! else 
+                    } //create expense if not duplicate                                        
                 }  //foreach $messages
             }  //foreach $receipts
         }     //foreach $company_email

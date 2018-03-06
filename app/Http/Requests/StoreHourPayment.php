@@ -28,7 +28,8 @@ class StoreHourPayment extends FormRequest
     {
         return [
         'date' => 'date',
-        'check' => "required|unique:checks,check",
+        'check' => "required_without:invoice|unique:checks,check",
+        'invoice' => "required_without:check",
         ];
     }
 

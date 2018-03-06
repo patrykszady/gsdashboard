@@ -87,28 +87,35 @@ class HourController extends Controller
             Session::put('takemeback', URL::previous()); 
         }
 
+        $employees = User::employees()->orderBy('first_name', 'asc')->get();
         $user = User::findOrfail($id);
             //doesnthave
         $expenses = Expense::where('paid_by', $id)->where('check_id', '=', NULL)->get();
-
-        $hours = Hour::where('user_id', $user->id)->where('check_id', '=', NULL)->get();
+  /*      $paid_by_hours = Hour::where('paid_by', $user->id)->where('check_id', NULL)->get();*/
+        /*dd($paid_by_hours);*/
+        $hours = Hour::where('user_id', $user->id)->where('check_id', '=', NULL)->where('invoice', '=', NULL)->get();
 
         $timesheets = Hour::where('user_id', $user->id)->UnpaidTimesheets()->get();
 
 /*        $hours = Hour::where('user_id', $id)->where('check', '=', NULL)->where('date', $week->date)->get();*/        
 
-        return view('hours.hourspayment', compact('timesheets', 'user', 'expenses', 'hours'));
+
+    //if paid_by = primary_vendor, show CHECK, if employee, show Referance (both reqired only if shown) // reguired with/without
+
+        return view('hours.hourspayment', compact('timesheets', 'user', 'expenses', 'hours', 'employees'));
         //update hours for this User
     }
 
     public function storePayment(StoreHourPayment $request)
     {
-        
-    $count_expenses = count($request->expense);
-    $count_hours = count($request->hour);
-    //if both empty, do not create a new check, otherwise, make new check
+    //if paid_by = 0, $hour->paid_by = Auth primary_vendor
+    $count_expenses = isset($request->expense) ? count($request->expense) : 0;
+    $count_hours = isset($request->hour) ? count($request->hour) : 0;
+
+    //if both empty, do not create a new check. otherwise, make new check
     if($count_expenses == 0 and $count_hours == 0){
-    }else {
+
+    }elseif(isset($request->check)) {
         $check = new Check;
         $check->check = $request->check;
         $check->date = Carbon::parse($request->date)->toDateTimeString();
@@ -131,7 +138,14 @@ class HourController extends Controller
 
         } else {
         $hour = Hour::findOrfail($request->hour[$i]);
-        $hour->check_id = $check->id;
+            if(isset($check)) {
+                $hour->check_id = $check->id;
+                $hour->paid_by = NULL;
+            }elseif(isset($request->invoice)) {
+                $hour->paid_by = $request->paid_by;
+                $hour->invoice = $request->invoice;
+            }
+        
         $hour->update();
         }       
     }

@@ -26,6 +26,30 @@ $(document).ready(function() {
 });
 
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(function() {
+  //onload
+  if($('#paid_by').val() == '0') {
+      $('#row_check').show();
+      $('#row_reference').hide();
+  } else {
+      $('#row_check').hide(); 
+      $('#row_reference').show();
+  } 
+  //on paid_by change
+    $('#paid_by').change(function(){
+        if($('#paid_by').val() == '0') {
+            $('#row_check').show();
+      		$('#row_reference').hide(); 
+        } else {
+            $('#row_check').hide(); 
+      		$('#row_reference').show(); 
+        } 
+    });
+});
+});
+</script>
 
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">

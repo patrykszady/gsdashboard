@@ -87,7 +87,7 @@ class User extends Authenticatable
     public function getEmployeeBalance()
     {
         $expenses = Expense::where('paid_by', $this->id)->where('check_id', null)->sum('amount');
-        $hours = Hour::where('user_id', $this->id)->where('check_id', null)->sum('amount');
+        $hours = Hour::where('user_id', $this->id)->where('check_id', null)->where('invoice', null)->sum('amount');
         $total = $expenses + $hours; 
 
         $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
