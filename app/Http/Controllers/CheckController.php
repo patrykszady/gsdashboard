@@ -55,7 +55,9 @@ class CheckController extends Controller
      */
     public function show(Check $check)
     {
-        return view('checks.show', compact('check'));
+        $paid_by_hours = $check->hours->where('invoice', '!=', NULL);
+        $hours = $check->hours->where('invoice', NULL);
+        return view('checks.show', compact('check', 'paid_by_hours', 'hours'));
     }
 
     /**

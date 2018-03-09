@@ -39,13 +39,15 @@
 	</div>
 </div>
 
+@if(count($check->expenses) > 0)
 <div class="row">
 	<div class="col-md-8 col-md-offset-2">
 		@include('expenses._table', $expenses = $check->expenses)
 	</div>
 </div>
+@endif
 
-@if($check->hours->count() > 1)
+@if(count($hours) > 0)
 <div class="row"> 
 	<div class="col-md-8 col-md-offset-2">
 		<div class="panel panel-default">
@@ -58,7 +60,7 @@
 					<th>Date</th>
 				</thead>
 				<tbody>
-					@foreach ($check->hours as $hour)
+					@foreach ($hours as $hour)
 						<tr>		
 							<td>
 			   					{{ $hour->hours }}
@@ -70,7 +72,47 @@
 			   					{{ $hour->date->toFormattedDateString() }}
 							</td>
 						</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+@endif
 
+@if(count($paid_by_hours) > 0)
+<div class="row"> 
+	<div class="col-md-8 col-md-offset-2">
+		<div class="panel panel-default">
+			<div class="panel-heading">Timesheets Paid For <a href="{{ route('hours.create') }}" class="btn btn-default">New Timesheet</a></div>
+		
+			<table class="table table-striped table-hover">
+				<thead>
+					<th>Hours</th>
+					<th>Amount</th>
+					<th>Employee</th>
+					<th>Project</th>
+					<th>Date</th>
+				</thead>
+				<tbody>
+					@foreach ($paid_by_hours as $hour)
+						<tr>		
+							<td>
+			   					{{ $hour->hours }}
+							</td>
+							<td>
+			   					{{ money($hour->amount) }}
+							</td>
+							<td>
+			   					{{ $hour->user->first_name }}
+							</td>							
+							<td>
+			   					{{ $hour->project->getProjectname() }}
+							</td>
+							<td>
+			   					{{ $hour->date->toFormattedDateString() }}
+							</td>
+						</tr>
 					@endforeach
 				</tbody>
 			</table>
@@ -79,4 +121,3 @@
 </div>
 @endif
 @endsection
-

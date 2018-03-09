@@ -1,5 +1,5 @@
+@if(count($timesheets) > 0)
 <div class="panel panel-default">
-<!-- Default panel contents -->
 	<div class="panel-heading">Unpaid Timesheets</div>
 	@foreach ($timesheets as $hour)
 	
@@ -7,7 +7,6 @@
 			<li class="list-group-item disabled"><strong>${{ $hour->where('check_id', NULL)->where('invoice', NULL)->sumOfHours($hour->user_id, $hour->date)}} </strong> |  {{ $hour->where('check_id', NULL)->sumHours($hour->user_id, $hour->date) }} hours on <strong> {{ $hour->getDate() }} </strong>	
 			</li>
 		</ul>
-
 		@foreach($hours->where('date', $hour->date) as $hour)
 		<ul class="list-group">
 			<li class="list-group-item">
@@ -19,34 +18,50 @@
 		@endforeach
 	@endforeach
 </div>
+@endif
 
+@if(count($expenses) > 0)
 <div class="panel panel-default">
-<!-- Default panel contents -->
 	<div class="panel-heading">Expenses Paid For</div>
-
-<!-- List group -->
-@foreach ($expenses as $expense)
-
-	<ul class="list-group">
-		<li class="list-group-item">
-		<input class="box" type="checkbox" checked value="{{$expense->id}}" name="expense[]" rel="{{$expense->amount}}">&nbsp;&nbsp;&nbsp;&nbsp;
-		<strong>{{  money($expense->amount)}} </strong> 
-		{{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
-		@if (isset($expense->project_id))
-			@if ($expense->project_id == 0)
-			<a href="{{ route('expenses.show', $expense->id)}}">Expense Split</a>
+	@foreach ($expenses as $expense)
+		<ul class="list-group">
+			<li class="list-group-item">
+			<input class="box" type="checkbox" checked value="{{$expense->id}}" name="expense[]" rel="{{$expense->amount}}">&nbsp;&nbsp;&nbsp;&nbsp;
+			<strong>{{  money($expense->amount)}} </strong> 
+			{{'paid for ' . $expense->vendor->business_name . ' on ' . $expense->getDate() . ' for project ' }}
+			@if (isset($expense->project_id))
+				@if ($expense->project_id == 0)
+				<a href="{{ route('expenses.show', $expense->id)}}">Expense Split</a>
+				@else
+				<a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>
+				@endif
 			@else
-			<a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a>
+				<a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a>
 			@endif
-		@else
-			<a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a>
-		@endif
-		</li>
-	</ul>
-@endforeach
-
+			</li>
+		</ul>
+	@endforeach
 </div>
+@endif
 
+@if(count($paid_by_hours) > 0)
+<div class="panel panel-default">
+	<div class="panel-heading">Timesheets Paid For</div>
+	@foreach ($paid_by_hours as $paid_by_hour)
+		<ul class="list-group">
+			<li class="list-group-item">
+			<input class="box" type="checkbox" checked value="{{$paid_by_hour->id}}" name="paid_by_hour[]" rel="{{$paid_by_hour->where('check_id', NULL)->where('invoice', '!=', NULL)->where('id', $paid_by_hour->id)->sumOfHours($paid_by_hour->user_id, $paid_by_hour->date)}}">
+
+			&nbsp;&nbsp;&nbsp;&nbsp;${{ $paid_by_hour->where('check_id', NULL)->where('invoice', '!=', NULL)->where('id', $paid_by_hour->id)->sumOfHours($paid_by_hour->user_id, $paid_by_hour->date)}} | 
+			{{$paid_by_hour->user->first_name}} <strong>{{  $paid_by_hour->hours }} </strong>  hours on  {{ $paid_by_hour->project->getProjectname()}}
+
+			</li>
+		</ul>
+	@endforeach
+</div>
+@endif
+
+<hr>
 <div class="form-group form-group-lg {{ $errors->has('check') ? ' has-error' : ''}}">
 	<label for="total" class="col-sm-4 control-label">Check Total</label>
 	<div class="col-sm-6">
@@ -83,6 +98,9 @@
     </select>
   </div>
 </div>
+
+
+
 <div id="row_check">
 <div class="form-group {{ $errors->has('check') ? ' has-error' : ''}}">
 	<label for="check" class="col-sm-4 control-label">Check</label>

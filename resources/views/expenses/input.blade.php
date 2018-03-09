@@ -1,3 +1,4 @@
+{{-- show only on desktops! --}}
 @extends('main')
 
 @section('title', 'Input Expenses')
@@ -15,11 +16,12 @@
 			<tr>
 				<th>Date</th>
 				<th>Amount</th>
-				<th>Project</th>
 				<th>Vendor</th>
-				<th width="15%">Paid By</th>
-				<th width="15%">Reimbursment</th>
+				<th>Project</th>
+				<th width="5%">Paid By</th>
+				<th width="5%">Reimbu rsment</th>
 				<th width="10%">Receipt</th>
+				<th width="5%">Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,10 +29,13 @@
 			<input name="expense_id[]" id="expense_id.$key" type="hidden" value="{{ old("expense_id.$key", $expense->id) }}">
 		<tr>
 			<td>
-				{{ $expense->getDate() }}
+				{{ date_format($expense->expense_date,"m-d-y") }}
 			</td>
 			<td>
 				{{ money($expense->amount) }}
+			</td>
+			<td>
+				{{ $expense->vendor->getName() }}
 			</td>
 			<td> 
 				<select class="form-control {{ $errors->has("project_id.$key") ? ' has-error' : '' }}" id="project_id.$key" name="project_id[]">
@@ -55,9 +60,6 @@
 						</option>
 					@endforeach
 				</select>
-			</td>
-			<td>
-				{{ $expense->vendor->getName() }}
 			</td>
 			<td>
 				<select class="form-control" id="paid_by.$key" name="paid_by[]">

@@ -88,7 +88,8 @@ class User extends Authenticatable
     {
         $expenses = Expense::where('paid_by', $this->id)->where('check_id', null)->sum('amount');
         $hours = Hour::where('user_id', $this->id)->where('check_id', null)->where('invoice', null)->sum('amount');
-        $total = $expenses + $hours; 
+        $paid_by_hours = Hour::where('paid_by', $this->id)->where('invoice', '!=', NULL)->where('check_id', NULL)->sum('amount');
+        $total = $expenses + $hours + $paid_by_hours; 
 
         $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
 

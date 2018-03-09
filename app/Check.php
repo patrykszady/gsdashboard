@@ -43,7 +43,10 @@ class Check extends Model
 
     public function getPayee()
     {
-        if($this->hours->count() > 0) {
+        if($this->hours->where('invoice', '!=', NULL)->count() > 0){
+            $payee = $this->hours->where('invoice', '!=', NULL)->first()->paid_by;
+            $user = User::findOrFail($payee);
+        } elseif($this->hours->count() > 0) {
             $payee = $this->hours->first()->user->id;
             $user = User::findOrFail($payee);
 
