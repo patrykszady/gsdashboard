@@ -249,9 +249,10 @@ class ExpenseController extends Controller
 
     public function show(Expense $expense)
     {
+        dd($expense);
         $distribution = Distribution::where('id', preg_replace("/[^0-9]/","",$expense->project_id))->first();
         $expense_splits = ExpenseSplit::where('expense_id', $expense->id)->get();
-        
+        dd($expense_splits);
         return view('expenses.show', compact('expense', 'distribution', 'expense_splits'));
     }
 
@@ -277,16 +278,19 @@ class ExpenseController extends Controller
     {
         $check = Check::where('check', $request->check_id)->first();
         //no check entered/check is empty AND $expense->check_id is set before update
-        if(is_null($request->check) AND isset($expense->check_id)) {
+        dd($request->check_id);
+        if(is_null($request->check_id) AND isset($expense->check_id)) {
             //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
             if(Expense::where('check_id', $expense->check_id)->count() <= 1) {
                 $check = $check->delete();
             }
+            dd('here...too bad');
             $expense->check_id = null;
         //If Check isset and Check # exists in database
         } elseif(!is_null($request->check_id) AND $check != null) {
             $expense->check_id = $check->id;
         } elseif (!is_null($request->check_id)) {
+            dd('here...too bad TOOOO');
             //Create new check if doesn't exist yet.
             $check = new Check;
             $check->check = $request->check_id;

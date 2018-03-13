@@ -37,6 +37,7 @@
 				<a href="{{ route('expenses.edit', $expense->id) }}" class="btn btn-danger">Delete</a>
 			</div>
 			@endif
+
 		</div>
 
 		<div class="panel panel-default">
@@ -54,6 +55,7 @@
 						<td>{{ $expense->invoice }}</td>
 					</tr>
 					<tr>
+						{{ dd($expense->check_id) }}
 						<td><strong>Check</strong></td>
 						<td><a href="{{ route('checks.show', $expense->check_id) }}">{{ $expense->check->check }}</a></td>
 					</tr>
