@@ -55,9 +55,9 @@
 						<td>{{ $expense->invoice }}</td>
 					</tr>
 					<tr>
-						{{ dd($expense->check_id) }}
-						<td><strong>Check</strong></td>
-						<td><a href="{{ route('checks.show', $expense->check_id) }}">{{ $expense->check->check }}</a></td>
+						@if(isset($expense->check_id))
+						<a href="{{ route('checks.show', $expense->check_id) }}">{{ $expense->check->check }}</a>
+						@endif
 					</tr>
 					<tr>
 						<td><strong>Created By</strong></td>

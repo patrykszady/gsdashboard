@@ -249,10 +249,8 @@ class ExpenseController extends Controller
 
     public function show(Expense $expense)
     {
-        dd($expense);
         $distribution = Distribution::where('id', preg_replace("/[^0-9]/","",$expense->project_id))->first();
         $expense_splits = ExpenseSplit::where('expense_id', $expense->id)->get();
-        dd($expense_splits);
         return view('expenses.show', compact('expense', 'distribution', 'expense_splits'));
     }
 

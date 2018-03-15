@@ -19,14 +19,24 @@
 	<label for="project_id" class="col-sm-4 control-label">Project</label>
 	<div class="col-sm-6">
 		<select class="form-control" id="project_id" name="project_id">
-				<option value="" disabled 
+	{{-- 			<option value="" disabled 
 					{{ old('project_id', isset($expense) ? $expense->project_id : '') == "" ? "selected" : "" }}>
 					None
-				</option>
-				<option value="0" 
+				</option> --}}
+				@if(isset($expense->expense_splits[0]))
+				<option value="0"
 					{{ old('project_id', isset($expense) ? $expense->project_id : '') == "0" ? "selected" : "" }}>
 					SPLIT EXPENSE
 				</option>
+				@else
+				<option value="" disabled
+					{{ old('project_id', isset($expense) ? $expense->project_id : '') == "0" ? "selected" : "" }}>
+					AUTO EXPENSE
+				</option>
+				<option value="0">
+					SPLIT EXPENSE
+				</option>
+				@endif
 
 			@foreach ($projects as $project)
 				<option value="{{$project->id}}" 

@@ -29,14 +29,16 @@
 						@if(isset($expensesplit))
 
 						@else
-
-						@if(isset($expense->project_id))
-							<td><strong>Project</strong></td>
-							<td><a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a></td>
-						@else
-							<td><strong>Account</strong></td>
-							<td><a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a></td>
-						@endif
+							@if($expense->project_id != 0)
+								<td><strong>Project</strong></td>
+								<td><a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a></td>
+							@elseif($expense->distribution_id == NULL)
+								<td><strong>Auto Expense</strong></td>
+								<td><a href="{{ route('expenses.edit', $expense->id)}}"><strong>Inupt Expense</strong></a></td>
+							@else
+								<td><strong>Account</strong></td>
+								<td><a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a></td>
+							@endif
 						@endif
 					</tr>
 				</tbody>
