@@ -177,7 +177,7 @@ $("#project_id{{$key}}").change(function() {
 						<ul class="dropdown-menu">
 							<li><a href="{{ route('expenses.show', $expense->getId()) }}">View</a></li>
 							<li><a href="{{ route('expenses.edit', $expense->id) }}">Edit</a></li>
-							<li><a href="{{ route('expenses.destroy', $expense->id) }}">Delete</a></li>
+							<li><a href="{{ route('expenses.edit', $expense->id) }}">Delete</a></li>
 						</ul>
 					</div>
 			</td>

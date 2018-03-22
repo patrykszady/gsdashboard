@@ -113,7 +113,7 @@ class ReceiptController extends Controller
                     }
                 }
             
-                /*print_r(htmlspecialchars($string));  //<--SHOW HTML ALL TEXT
+            /*    print_r(htmlspecialchars($string));  //<--SHOW HTML ALL TEXT
                 dd();*/
                 $receipt_start = strpos($string, $receipt_start);
 
@@ -125,9 +125,9 @@ class ReceiptController extends Controller
 
                 $receipt_position = $receipt_end - $receipt_start;
                 $receipt_html_main = substr($string, $receipt_start, $receipt_position);
-                /*print_r(htmlspecialchars($receipt_html_main));  
-                dd();*/
-
+            /*    print_r(htmlspecialchars($receipt_html_main));  
+                dd();
+*/
                 $amount_start = $receipt->amount_start;  /*...returns =    "TOTAL          -$"*/
                 $amount_end = $receipt->amount_end; 
 
@@ -149,7 +149,7 @@ class ReceiptController extends Controller
 
                     $amount_length = $amount_end_position - $amount_start_position;
                     $amount_string = preg_replace('/[^0-9.]*/', '', substr($receipt_html, $amount_start_position, $amount_length));
-                    /*dd($amount_string);*/
+                  /*  dd($amount_string);*/
                     
                     if($receipt->po == 1){ // 1 = yes 2 = no
                         $po_start = $receipt->po_start;

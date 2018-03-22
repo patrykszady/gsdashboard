@@ -108,7 +108,9 @@ class Expense extends Model
 
     public function getPaidBy()
     {
-        if($this->paid_by === "0") {
+        if($this->paid_by === "0" AND $this->created_by_user_id == 58){ //AUTOMATED USER
+            $paid_by = '';
+        }elseif($this->paid_by === "0") {
             $paid_by = Vendor::findOrFail(User::findOrFail($this->created_by_user_id)->primary_vendor)->getName();
         }elseif(is_numeric($this->paid_by)){
             $paid_by = User::findOrFail($this->paid_by)->first_name;
