@@ -94,6 +94,8 @@ class ExpenseController extends Controller
         $projects = Project::isActive();
         $distributions = Distribution::all();
         $vendors = Vendor::orderBy('business_name', 'asc')->get();
+        Session::forget('split_expenses');
+        Session::put('takemeback', URL::current());
         
         return view('expenses.input', compact('expenses', 'employees', 'primary_vendor', 'projects', 'distributions', 'vendors'));
     }
@@ -102,7 +104,7 @@ class ExpenseController extends Controller
     {
     $count = count($request->project_id);
         for($i = 0; $i < $count; ++$i){
-            if(!is_null($request->project_id[$i])){
+            if(!is_null($request->project_id[$i]) AND $request->project_id[$i] != "SPLIT"){
                 $expense = Expense::findOrfail($request->expense_id[$i]);
                 if(is_numeric($request->project_id[$i])) {
                     $expense->project_id = $request->project_id[$i];
@@ -115,9 +117,19 @@ class ExpenseController extends Controller
                 $expense->note = NULL;
             
                 $expense->save();
-            }       
+            } elseif($request->project_id[$i] == "SPLIT"){
+                //write expense_ids to Session, loop through each for user input. if left before entering, do not save
+                $request->session()->push('split_expenses', $request->expense_id[$i]);
+            }   
+
         }
-        return back();      
+        if($request->session()->has('split_expenses')){
+            //send first to expensesplits.create route
+            $split = $request->session()->get('split_expenses')[0];
+            return redirect(route('expensesplits.create', $split));
+        } else {
+            return back();   
+        }          
     }
 
     public function changechecks()
@@ -276,19 +288,16 @@ class ExpenseController extends Controller
     {
         $check = Check::where('check', $request->check_id)->first();
         //no check entered/check is empty AND $expense->check_id is set before update
-        dd($request->check_id);
         if(is_null($request->check_id) AND isset($expense->check_id)) {
             //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
             if(Expense::where('check_id', $expense->check_id)->count() <= 1) {
                 $check = $check->delete();
             }
-            dd('here...too bad');
             $expense->check_id = null;
         //If Check isset and Check # exists in database
         } elseif(!is_null($request->check_id) AND $check != null) {
             $expense->check_id = $check->id;
         } elseif (!is_null($request->check_id)) {
-            dd('here...too bad TOOOO');
             //Create new check if doesn't exist yet.
             $check = new Check;
             $check->check = $request->check_id;

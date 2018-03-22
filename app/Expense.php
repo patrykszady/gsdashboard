@@ -69,7 +69,8 @@ class Expense extends Model
     public function scopeExpenseWithSplits($query)
     {
         $splits = ExpenseSplit::with('expense')->get();
-        $expenses = Expense::where('distribution_id', '!=', NULL)->orWhere('project_id', '!=', 0)->get();
+        /*$expenses = Expense::where('distribution_id', '!=', NULL)->orWhere('project_id', '!=', 0)->get();*/
+        $expenses = Expense::all();
         return $expenses->merge($splits);
     }
     public function setExpenseDateAttribute($date)
@@ -125,7 +126,7 @@ class Expense extends Model
     }
     public function getReimbursment()
     {       
-        if($this->reimbursment == "0") {
+        if($this->reimbursment == "0" OR $this->reimbursment == NULL) {
             $reimbursment = '';
         } elseif($this->reimbursment == "Client") {
             $reimbursment = 'Client';

@@ -41,12 +41,12 @@
 	<label for="reimbursment" class="col-sm-4 control-label">Reimbursment</label>
 	<div class="col-sm-8">
 		<select class="form-control" id="reimbursment.$i" name="reimbursment[]">
-			<option value="0" {{ old("reimbursment.$i", isset($expense_split) ? $expense_split->reimbursment : '0') == 0 ? "selected" : "0" }}>None</option>
-			<option value="Client" {{ old("reimbursment.$i", isset($expense_split) ? $expense_split->reimbursment : 'None') == "Client" ? "selected" : "None" }}>Client</option>
+			<option value="" {{ old("reimbursment.$i", isset($expense_split) ? $expense_split->reimbursment : '') == "" ? "selected" : "" }}>None</option>
+			<option value="Client" {{ old("reimbursment.$i", isset($expense_split) ? $expense_split->reimbursment : '') == "Client" ? "selected" : "" }}>Client</option>
 			<option value="Contractors" disabled>Contractors</option>
 			@foreach ($vendors as $vendor)
 				<option value="{{$vendor->id}}" 
-					{{ old("reimbursment.$i", isset($expense_reimbursment) ? $expense_reimbursment->reimbursment : 'None') == $vendor->id ? "selected" : "None" }}>
+					{{ old("reimbursment.$i", isset($expense_split) ? $expense_split->reimbursment : '') == $vendor->id ? "selected" : "" }}>
 					{{ $vendor->getName() }}
 				</option>
 			@endforeach

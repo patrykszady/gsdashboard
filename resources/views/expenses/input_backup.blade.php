@@ -11,23 +11,6 @@ $(document).ready(function() {
 	    $('[class*="column_r_"]').hide(); //reimbursment column
     $('[class*="column_p_"]').hide(); //paid_by column
 
-    var dataTable = $('.expense_input_datatable').DataTable( {                                                 
-        "info":     false,
-        "stateSave": true,
-        "paging":   false,
-        "stateDuration": 120,
-        "sDom":     'ltipr',
-        "columnDefs": [
-			{ "searchable": false, "targets": 4 },
-			{ "orderable": false, "targets": [3, 4] }
-		],
-		"order": [[ 1, "asc" ]]
-    } );
-
-    $("#filterbox_datatable").keyup(function() {
-        dataTable.search(this.value).draw();
-    });    
-
 @foreach ($expenses as $key => $expense)
 
 $("#project_id{{$key}}").change(function() {
@@ -46,7 +29,7 @@ $("#project_id{{$key}}").change(function() {
 	} else {
 		$("#paid_by{{$key}}").hide(); //reimbursment column
     	$("#reimbursment{{$key}}").hide(); //paid_by column
-    	$("#tablerow{{$key}}").css('background-color', 'initial');
+    	$("#tablerow{{$key}}").css('background-color', 'inherit');
 	}
 
 });
@@ -57,23 +40,19 @@ $("#project_id{{$key}}").change(function() {
 
 </script>
 
-<div class="row">
-	<div class="col-lg-10 col-md-offset-1">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-		<div class="form-inline" autocomplete="off">
-			<div class="form-group">Input Automated Receipts 
-			</div>
-			<div class="form-group">
-				<label class="sr-only" for="filterbox_datatable">Search</label>
-				<input type="text" class="form-control" id="filterbox_datatable" placeholder="Search">
-			</div>
-	  	</div>
-		</div>
-	<form class="form-horizontal" action="{{ route('expenses.inputStore') }}" method="POST" autocomplete="off" >
+<form class="form-horizontal" action="{{ route('expenses.inputStore') }}" method="POST" autocomplete="off" >
 	{{ csrf_field() }}
-	
-	<table class="table table-striped table-hover expense_input_datatable">
+		
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">Input Automated Receipts <button type="submit" class="btn btn-success">Save</button>
+			</div>
+					<div class="form-group">
+			<label class="sr-only" for="filterbox_datatable">Search</label>
+			<input type="text" class="form-control" id="filterbox_datatable" placeholder="Search">
+		</div>
+	<table id="expense_input_datatable" class="table table-striped table-hover">
 		<div>
 		<thead>
 			<tr>
@@ -81,18 +60,25 @@ $("#project_id{{$key}}").change(function() {
 				<th>Amount</th>
 				<th>Vendor</th>
 				<th>Project</th>
+				<th width="10%">Paid By</th>
+				<th width="10%">Reimbu rsment</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
 		</div>
 		<tbody>
 		@foreach ($expenses as $key => $expense)
-
+			<input name="expense_id[]" id="expense_id.$key" type="hidden" value="{{ old("expense_id.$key", $expense->id) }}">
 		<tr id="tablerow{{$key}}">
-			<input name="expense_id[]" id="expense_id{{$key}}" type="hidden" value="{{$expense->id}}">
-			<td>{{ date_format($expense->expense_date,"m/d/y") }}</td>
-			<td><strong>{{ money($expense->amount) }}</strong></td>
-			<td>{{ $expense->vendor->getName() }}</td>
+			<td>
+				{{ date_format($expense->expense_date,"m-d-y") }}
+			</td>
+			<td>
+				{{ money($expense->amount) }}
+			</td>
+			<td>
+				{{ $expense->vendor->getName() }}
+			</td>
 			<td> 
 				<select class="form-control project_id.{{$key}}" id="project_id{{$key}}" name="project_id[]">
 						<option value=""
@@ -103,12 +89,7 @@ $("#project_id{{$key}}").change(function() {
 							SPLIT EXPENSE
 						</option>
 
-    
-   
-
-
 					@foreach ($projects as $project)
-
 						<option value="{{$project->id}}" 
 							{{ old('project_id', isset($expense->project_id) ? $expense->project_id : '') == $project->id ? "selected" : "" }}>
 							{{ $project->getProjectname() }}
@@ -124,9 +105,9 @@ $("#project_id{{$key}}").change(function() {
 						</option>
 					@endforeach
 				</select>
-				<div class="form-group column_p_" id="paid_by{{$key}}">
-    			<label for="paid_by1{{$key}}">Paid By:</label>
-				<select class="form-control" id="paid_by1{{$key}}" name="paid_by[]">
+			</td>
+			<td>
+				<select class="form-control column_p_" id="paid_by{{$key}}" name="paid_by[]">
 					{{-- Can we put old('paid_by') elsewhere? to clean up this view? --}}
 					<option value="0" 
 						{{ old('paid_by', isset($expense) ? $expense->paid_by : '') == "0" ? "selected" : "" }}>
@@ -150,10 +131,9 @@ $("#project_id{{$key}}").change(function() {
 						</option>
 					@endforeach
 				</select>
-				</div>
-				<div class="form-group column_r_" id="reimbursment{{$key}}">
-    			<label for="paid_by1{{$key}}">Reimbursment:</label>
-				<select class="form-control" id="reimbursment1{{$key}}" name="reimbursment[]">
+			</td>
+			<td>
+				<select class="form-control column_r_" id="reimbursment{{$key}}" name="reimbursment[]">
 					<option value="0" {{ old('reimbursment', isset($expense) ? $expense->reimbursment : '') == 0 ? "selected" : "" }}>None</option>
 					<option value="Client" {{ old('reimbursment', isset($expense) ? $expense->reimbursment : '') == "Client" ? "selected" : "" }}>Client</option>
 					<option value="" disabled>Contractors</option>
@@ -164,7 +144,6 @@ $("#project_id{{$key}}").change(function() {
 						</option>
 					@endforeach
 				</select>
-
 			</td>
 			<td>
 				@include('expenses._receipt_modal_input_view')
@@ -185,21 +164,16 @@ $("#project_id{{$key}}").change(function() {
 		@endforeach
 		</tbody>
 	</table>
-
-			<div class="panel-footer">
-			  	<button type="submit" class="btn btn-success btn-block">Save</button>
-			</div>
-			</form>
-		</div> {{-- panel panel-default --}}
+</form>
+		</div>
 	</div>
-</div>
 
 {{-- 	<div class="col-lg-1" style="position: sticky; top: 10px; position: -webkit-sticky;">
 		<button type="submit" class="btn btn-success">Save</button>
-	</div>
+	</div> --}}
+</div>
 
 
- --}}
 
 
 @endsection

@@ -39,15 +39,15 @@ class ExpenseSplit extends Model
 
     public function getReimbursment()
     {       
-        if($this->reimbursment == "0") {
+        if($this->reimbursment == "0" OR $this->reimbursment == NULL) {
             $reimbursment = '';
         } elseif($this->reimbursment == "Client") {
             $reimbursment = 'Client';
         } else {
-            $reimbursment = Vendor::findOrFail($this->reimbursment)->getName(); 
+            $reimbursment = Vendor::findOrFail($this->reimbursment)->getName();
         }
 
-        return $reimbursment;      
+        return $reimbursment;        
     }
 
     public function getCreatedBy()

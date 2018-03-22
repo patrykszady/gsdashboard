@@ -32,12 +32,15 @@
 		<tr>
 			<td data-order="{{$expense->expense_date}}">{{ $expense->getDate() }}</td>
 			<td data-search="{{$expense->amount}}">{{ money($expense->amount) }}</td>
+
 			@if(isset($project))
 			@else
-				@if($expense->project_id == 0 AND $expense->distribution_id == NULL)
-					<td><a href="{{ route('expenses.show', $expense->getId())}}">Expense Split</a></td>
-				@elseif (isset($expense->project_id))
+				@if($expense->project_id != 0)
 					<td><a href="{{ route('projects.show', $expense->project->id)}}">{{ $expense->project->getProjectname() }}</a></td>
+				@elseif(isset($expense->expense_splits) AND count($expense->expense_splits) > 0)
+					<td><a href="{{ route('expenses.show', $expense->getId())}}">Expense Split</a></td>
+				@elseif($expense->project_id == 0 AND $expense->distribution_id == NULL) 
+					<td><a href="{{ route('expenses.show', $expense->getId())}}"><strong>Input Expense</strong></a></td>
 				@else
 					<td><a href="{{ route('distributions.show', $expense->distribution->id) }}">{{$expense->distribution->name}}</a></td>
 				@endif

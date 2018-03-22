@@ -33,8 +33,7 @@ class StoreExpenseSplit extends FormRequest
         //Check if all input['amount[]'] = the same amount as expense->amount
         $expense = Expense::findOrFail($request->expense_id);
         
-        $amount_split = $expense->amount - array_sum($request->amount) == 0;
-
+        $amount_split = $expense->amount - round(array_sum($request->amount), 2) == 0;
         if($amount_split == false) {
             return [
                 'amount_total' => 'required', //amount_total actually doesnt exists but fails if the IF statement is true ($amount_split ==false).

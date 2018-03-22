@@ -90,7 +90,24 @@ class ExpenseSplitController extends Controller
         $expense->save();
 
         Session::flash('success', 'Splits were added to this receipt');
-        
+        if($request->session()->has('split_expenses')){
+
+                $array = session()->pull('split_expenses',[]); //holds old split_expenses values..next we delete the one just created (first one..index[0])
+              /*          dd($request->session()->get('split_expenses'));*/
+                reset($array);
+                unset($array[0]);
+                $array = array_merge($array);
+                session()->put('split_expenses',$array);
+            if(isset($request->session()->get('split_expenses')[0])){    
+                $split = $request->session()->get('split_expenses')[0];
+                return redirect(route('expensesplits.create', $split));
+            } else {
+                return redirect(route('expenses.input'));
+            }
+            
+        } else {
+            return back();   
+        }  
         return redirect(route('expenses.show', $request->expense_id));
     }
 
@@ -138,7 +155,7 @@ class ExpenseSplitController extends Controller
         /*dd($split_ids);*/
         foreach($splits as $split_id){
             if($split_ids->contains($split_id->id)){
-                var_dump($split_id->id);
+               /* var_dump($split_id->id);*/
             } else {
                 ExpenseSplit::where('id', $split_id->id)->delete();
             }
