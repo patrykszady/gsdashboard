@@ -62,7 +62,7 @@ $("#project_id{{$key}}").change(function() {
 	<div class="panel panel-default">
 		<div class="panel-heading">
 		<div class="form-inline" autocomplete="off">
-			<div class="form-group">Input Automated Receipts 
+			<div class="form-group">Input Automated Receipts 123
 			</div>
 			<div class="form-group">
 				<label class="sr-only" for="filterbox_datatable">Search</label>
