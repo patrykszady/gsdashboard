@@ -286,9 +286,9 @@ class ExpenseController extends Controller
 
     public function update(StoreExpense $request, Expense $expense)
     {
-        $check = Check::where('check', $request->check_id)->first();
+        $check = Check::where('check', $request->check)->first();
         //no check entered/check is empty AND $expense->check_id is set before update
-        if(is_null($request->check_id) AND isset($expense->check_id)) {
+        if(is_null($request->check) AND isset($expense->check_id)) {
             //if this expense was the only one attached to check, destroy check on Checks table..if others exist, leave.
             if(Expense::where('check_id', $expense->check_id)->count() <= 1) {
                 $check = $check->delete();
@@ -297,10 +297,10 @@ class ExpenseController extends Controller
         //If Check isset and Check # exists in database
         } elseif(!is_null($request->check_id) AND $check != null) {
             $expense->check_id = $check->id;
-        } elseif (!is_null($request->check_id)) {
+        } elseif (!is_null($request->check)) {
             //Create new check if doesn't exist yet.
             $check = new Check;
-            $check->check = $request->check_id;
+            $check->check = $request->check;
             $check->date = $expense->expense_date;
             $check->created_by_user_id = Auth::id();
             $check->save();

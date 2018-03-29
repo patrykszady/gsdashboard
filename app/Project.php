@@ -140,8 +140,12 @@ class Project extends Model
 
 
                 $this->expenseSplits()->with('expense')->where('expenses.vendor_id', $vendor)->sum('amount');*/
-      
-        $percent = ($total / $this->getProjectTotal()) * 100;
+        if($this->getProjectTotal() == 0){
+            $percent = 0;
+        } else {
+            $percent = ($total / $this->getProjectTotal()) * 100;    
+        }
+
         $total = (floor($total) == $total) ? number_format($total,0, '.', ',') : number_format($total,2, '.', ',');
         $percent = (floor($percent) == $percent) ? number_format($percent,0, '.', ',') : number_format($percent,2, '.', ',');
         return '$' .  $total . ' | ' . $percent . '%';      

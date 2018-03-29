@@ -116,7 +116,7 @@ class ReceiptController extends Controller
             /*    print_r(htmlspecialchars($string));  //<--SHOW HTML ALL TEXT
                 dd();*/
                 $receipt_start = strpos($string, $receipt_start);
-
+                
                 if($receipt->receipt_end !== "0"){
                     $receipt_end = strpos($string, $receipt_end, $receipt_start);
                 } elseif($receipt->receipt_end == "0"){ //if receipt_end = null, use last character of getBodyText()/Html()

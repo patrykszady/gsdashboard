@@ -18,10 +18,10 @@ $(document).ready(function() {
         "stateDuration": 120,
         "sDom":     'ltipr',
         "columnDefs": [
-			{ "searchable": false, "targets": 4 },
+			{ "searchable": false, "targets": [3, 4] },
 			{ "orderable": false, "targets": [3, 4] }
 		],
-		"order": [[ 1, "asc" ]]
+		"order": [ 1, "asc" ]
     } );
 
     $("#filterbox_datatable").keyup(function() {
